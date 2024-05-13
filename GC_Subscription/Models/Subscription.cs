@@ -8,8 +8,8 @@ namespace GC_Subscription.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; } // PK
 
-        [ForeignKey("Customer")]
-        public int CustomerId { get; set; } // FK to Customer
+        public int CustomerId { get; set; }
+        public Customer Customer { get; set; }
 
         [Required]
         public int Interval { get; set; }
@@ -28,13 +28,12 @@ namespace GC_Subscription.Models
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
-        ICollection<SubscriptionProduct> SubscriptionProducts { get; set; }
-        
+        /*
+        ICollection<SubscriptionProduct> SubscriptionProducts { get; set; }       
         ICollection<SubscriptionDiet> SubscriptionDiets { get; set; }
-
-        ICollection<SubscriptionAllergy> SubscriptionAllergies { get; set; }
-        
+        ICollection<SubscriptionAllergy> SubscriptionAllergies { get; set; }        
         ICollection<Invoice> Invoices { get; set; }
+        */
     }
 }
     

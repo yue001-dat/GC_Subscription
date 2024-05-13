@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using GC_Subscription.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<GCContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GCContext") ?? throw new InvalidOperationException("Connection string 'GCContext' not found.")));
 
 var app = builder.Build();
 

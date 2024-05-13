@@ -25,13 +25,13 @@ namespace GC_Subscription.Models
         [Required]
         [Display(Name = "Address")]
         public string Address1      { get; set; }
-
+        
         /*
-        [ForeignKey("Code")] // FK Explicit
         public int PostalCodeId { get; set; } // FK for City 3/nf
-        ICollection<PostalCode> City { get; set; }
+        ICollection<PostalCode> PostalCo { get; set; }
         */
+      
+        ICollection<Subscription> Subscriptions { get; set; }
 
-        ICollection<Subscription> Subscriptions { get; set; } // No Key Reference Here . FK @ Subscriptions :)
     }
 }
