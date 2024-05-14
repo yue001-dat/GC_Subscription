@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
@@ -12,18 +7,25 @@ namespace GC_Subscription.Pages.Mealboxes
 {
     public class IndexModel : PageModel
     {
-        private readonly GC_Subscription.Data.GhostchefContext _context;
+        private readonly GhostchefContext _context;
 
-        public IndexModel(GC_Subscription.Data.GhostchefContext context)
+        public IList<Mealbox> Mealbox { get; set; } = default!;
+
+        public IndexModel(GhostchefContext context)
         {
             _context = context;
         }
 
-        public IList<Mealbox> Mealbox { get;set; } = default!;
-
         public async Task OnGetAsync()
         {
-            Mealbox = await _context.Mealbox.ToListAsync();
+            // TODO : Viser stadig diæter og kostvaner dobbelt
+            Mealbox = await _context.Mealbox
+                                    .Include(m => m.Products)
+                                    .ThenInclude(p => p.Diets)
+                                    .Include(m => m.Products)
+                                    .ThenInclude(p => p.Allergies)
+                                    .Distinct()
+                                    .ToListAsync();
         }
     }
 }

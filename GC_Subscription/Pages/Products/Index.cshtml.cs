@@ -14,12 +14,12 @@ namespace GC_Subscription.Pages.Products
     {
         private readonly GC_Subscription.Data.GhostchefContext _context;
 
+        public IList<Product> Product { get; set; } = default!;
+
         public IndexModel(GC_Subscription.Data.GhostchefContext context)
         {
             _context = context;
         }
-
-        public IList<Product> Product { get;set; } = default!;
 
         public async Task OnGetAsync()
         {

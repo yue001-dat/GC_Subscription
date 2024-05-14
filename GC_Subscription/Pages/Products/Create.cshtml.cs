@@ -15,13 +15,16 @@ namespace GC_Subscription.Pages.Products
         private readonly GC_Subscription.Data.GhostchefContext _context;
 
         [BindProperty]
-        public Product Product { get; set; } = default!;
+        public Product Product { get; set; }
 
         [BindProperty]
-        public List<int> SelectedAllergyIds { get; set; }
+        public IFormFile? Image { get; set; }
 
         [BindProperty]
-        public List<int> SelectedDietIds { get; set; }
+        public List<int>? SelectedAllergyIds { get; set; }
+
+        [BindProperty]
+        public List<int>? SelectedDietIds { get; set; }
 
         public CreateModel(GC_Subscription.Data.GhostchefContext context)
         {

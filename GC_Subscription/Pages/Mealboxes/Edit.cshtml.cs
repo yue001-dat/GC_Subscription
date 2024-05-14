@@ -15,13 +15,13 @@ namespace GC_Subscription.Pages.Mealboxes
     {
         private readonly GC_Subscription.Data.GhostchefContext _context;
 
+        [BindProperty]
+        public Mealbox Mealbox { get; set; } = default!;
+
         public EditModel(GC_Subscription.Data.GhostchefContext context)
         {
             _context = context;
         }
-
-        [BindProperty]
-        public Mealbox Mealbox { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

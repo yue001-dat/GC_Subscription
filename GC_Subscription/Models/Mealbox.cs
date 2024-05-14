@@ -12,7 +12,7 @@ namespace GC_Subscription.Models
         [Range(0, 1000, ErrorMessage = "Prisen skal være mellem 0 og 1000")]
         public int Price { get; set; }
 
-        public List<Product> Products { get; } = [];
-        public List<Subscription> Subscriptions { get; } = [];
+        public List<Product> Products { get; set; } = [];
+        public List<Subscription> Subscriptions { get; set; } = [];
     }
 }
