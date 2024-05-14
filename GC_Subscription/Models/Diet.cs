@@ -8,6 +8,6 @@ namespace GC_Subscription.Models
         [Required(ErrorMessage = "Angiv venligst et navn på diæten")]
         public string Name { get; set; }
 
-        public List<Product> Products { get; } = [];
+        public ICollection<Product> Products { get; } = [];
     }
 }

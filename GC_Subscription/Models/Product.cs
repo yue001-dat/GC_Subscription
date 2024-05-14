@@ -7,12 +7,16 @@ namespace GC_Subscription.Models
     {
         // Product Fields
         public int Id { get; set; }
+
         [Required(ErrorMessage ="Angiv venligst et navn til retten")]
         public string Name { get; set; }
+
         [Required(ErrorMessage ="Angiv venligst en beskrivelse af retten")]
         public string Description { get; set; }
+
         [Range(0, 1000, ErrorMessage ="Prisen skal være mellem 0 og 1000")]
         public int Price { get; set; }
+
         public bool InStock { get; set; } = true;
         
         // TODO: Fixing Image Uploading
@@ -20,9 +24,9 @@ namespace GC_Subscription.Models
         // public string ImageUrl { get; set; } 
 
         // Relational Fields
-        public List<Mealbox> Mealboxes { get; } = [];
-        public List<Allergy> Allergies { get; set; } = [];
-        public List<Diet> Diets { get; set; } = [];
+        public ICollection<Mealbox> Mealboxes { get; } = [];
+        public ICollection<Allergy> Allergies { get; set; } = [];
+        public ICollection<Diet> Diets { get; set; } = [];
         
     }
 }
