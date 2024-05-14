@@ -1,7 +1,12 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using GC_Subscription.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddDbContext<GhostchefContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("GhostchefContext") ?? throw new InvalidOperationException("Connection string 'GhostchefContext' not found.")));
 
 var app = builder.Build();
 
