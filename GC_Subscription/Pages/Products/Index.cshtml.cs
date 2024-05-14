@@ -23,7 +23,10 @@ namespace GC_Subscription.Pages.Products
 
         public async Task OnGetAsync()
         {
-            Product = await _context.Product.ToListAsync();
+            Product = await _context.Product
+                                    .Include(p => p.Allergies)
+                                    .Include(p => p.Diets)
+                                    .ToListAsync();
         }
     }
 }

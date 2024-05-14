@@ -2,19 +2,19 @@
 @model GC_Subscription.Pages.Diets.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Diæter";
 }
 
-<h1>Index</h1>
+<h1>Diæter</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Opret ny</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Diet[0].Name)
+                Navn
             </th>
             <th></th>
         </tr>
@@ -26,9 +26,9 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+            <!--<a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |-->
+                <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
             </td>
         </tr>
 }

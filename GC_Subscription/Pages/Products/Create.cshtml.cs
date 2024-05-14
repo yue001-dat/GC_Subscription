@@ -14,6 +14,15 @@ namespace GC_Subscription.Pages.Products
     {
         private readonly GC_Subscription.Data.GhostchefContext _context;
 
+        [BindProperty]
+        public Product Product { get; set; } = default!;
+
+        [BindProperty]
+        public List<int> SelectedAllergyIds { get; set; }
+
+        [BindProperty]
+        public List<int> SelectedDietIds { get; set; }
+
         public CreateModel(GC_Subscription.Data.GhostchefContext context)
         {
             _context = context;
@@ -21,11 +30,10 @@ namespace GC_Subscription.Pages.Products
 
         public IActionResult OnGet()
         {
+            ViewData["Allergies"] = new SelectList(_context.Allergy, "Id", "Name");
+            ViewData["Diets"] = new SelectList(_context.Diet, "Id", "Name");
             return Page();
         }
-
-        [BindProperty]
-        public Product Product { get; set; } = default!;
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
@@ -34,6 +42,14 @@ namespace GC_Subscription.Pages.Products
             {
                 return Page();
             }
+
+            // Retrieve selected allergies and diets
+            var allergies = _context.Allergy.Where(a => SelectedAllergyIds.Contains(a.Id)).ToList();
+            var diets = _context.Diet.Where(d => SelectedDietIds.Contains(d.Id)).ToList();
+
+            // Assign selected allergies and diets to the product
+            Product.Allergies = allergies;
+            Product.Diets = diets;
 
             _context.Product.Add(Product);
             await _context.SaveChangesAsync();

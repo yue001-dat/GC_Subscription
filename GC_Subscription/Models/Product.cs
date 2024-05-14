@@ -16,7 +16,7 @@ namespace GC_Subscription.Models
 
         // Relational Fields
         public List<Mealbox> Mealboxes { get; } = [];
-        public List<Allergy> Allergies { get; } = [];
+        public List<Allergy> Allergies { get; set; } = [];
         public List<Diet> Diets { get; set; } = [];
         
     }
