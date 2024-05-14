@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using GC_Subscription.Models.Products;
 
 namespace GC_Subscription.Models
 {
