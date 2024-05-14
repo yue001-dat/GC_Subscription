@@ -1,0 +1,25 @@
+﻿@page
+@model GC_Subscription.Pages.Diets.DetailsModel
+
+@{
+    ViewData["Title"] = "Diæt Detaljer";
+}
+
+<h1>Detaljer</h1>
+
+<div>
+    <h4>Diæt</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Diet.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Diet.Name)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Diet.Id">Rediger</a> |
+    <a asp-page="./Index">Tilbage til oversigten</a>
+</div>
