@@ -5,78 +5,179 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Opret ny</h1>
+<!-- Style -->
+<style>
+    .display-6 {
+        font-size: 1.65rem !important;
+    }
 
-<h4>Ret</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    img.product-image {
+        border-radius: 20px;
+    }
 
-            <!-- Name field -->
-            <div class="form-group">
-                <label asp-for="Product.Name" class="control-label"></label>
-                <input asp-for="Product.Name" class="form-control" />
-                <span asp-validation-for="Product.Name" class="text-danger"></span>
+    .admin-panel-inner-container {
+        border-radius: 8px;
+        border: 1px solid darkgrey !important;
+        padding: 16px 0px 16px 10px;
+        text-align: center !important;
+        margin-top: 50% !important;
+    }
+
+    .admin-panel {
+        text-align: left !important;
+    }
+
+
+        .admin-panel a.nav-link {
+            color: #000 !important;
+        }
+
+            .admin-panel a.nav-link.active {
+                font-weight: bold;
+            }
+
+            .admin-panel a.nav-link:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<!-- Content Container -->
+<div class="container">
+
+    <div class="row">
+
+        <!-- Start Admin Menu -->
+        <div class="col-2">
+            <div class="admin-panel-inner-container">
+                <small><strong>Admin Panel</strong></small>
+                <ul class="nav flex-column admin-panel">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#">Opret måltidskasse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Opret færdigret</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Rediger måltidskasse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Rediger færdigret</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Admin Menu -->
+        <!-- Start Product Creation -->
+        <div class="col-1"></div>
+
+
+        <div class="col-9">
+
+            <!-- Heading -->
+            <div class="row">
+                <h1 class="display-6">Opret færdigret</h1>
+                <hr>
             </div>
 
-            <!-- Description field -->
-            <div class="form-group">
-                <label asp-for="Product.Description" class="control-label"></label>
-                <textarea asp-for="Product.Description" class="form-control" rows="4"></textarea>
-                <span asp-validation-for="Product.Description" class="text-danger"></span>
-            </div>
+            <!-- Start Form -->
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!-- Price field -->
-            <div class="form-group">
-                <label asp-for="Product.Price" class="control-label"></label>
-                <input asp-for="Product.Price" class="form-control" />
-                <span asp-validation-for="Product.Price" class="text-danger"></span>
-            </div>
+                <!-- Name field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Navn</label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Product.Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Product.Name" class="text-danger"></span>
+                </div>
 
-            <!-- Allergy field -->
-            <div class="form-group">
-                <label asp-for="Product.Allergies" class="control-label"></label>
-                <select asp-for="SelectedAllergyIds" class="form-control" multiple>
-                    @foreach (var allergy in ViewData["Allergies"] as SelectList)
-                    {
-                        <option value="@allergy.Value">@allergy.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="Product.Allergies" class="text-danger"></span>
-            </div>
 
-            <!-- Diet field -->
-            <div class="form-group">
-                <label asp-for="Product.Diets" class="control-label"></label>
-                <select asp-for="SelectedDietIds" class="form-control" multiple>
-                    @foreach (var diet in ViewData["Diets"] as SelectList)
-                    {
-                        <option value="@diet.Value">@diet.Text</option>
-                    }
-                </select>
-                <span asp-validation-for="Product.Diets" class="text-danger"></span>
-            </div>
+                <!-- Description field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Beskrivelse</label>
+                    </div>
+                    <div class="col-6">
+                        <textarea asp-for="Product.Description" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <span asp-validation-for="Product.Description" class="text-danger"></span>
+                </div>
 
-            <!-- In Stock field -->
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Product.InStock" /> @Html.DisplayNameFor(model => model.Product.InStock)
-                </label>
-            </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <!-- Price field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Pris</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <span class="input-group-text">DKK</span>
+                            <input asp-for="Product.Price" class="form-control" />
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Product.Price" class="text-danger"></span>
+                </div>
+
+
+                <!-- Allergy field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Allergier</label>
+                    </div>
+                    <div class="col-6">
+                        @foreach (var allergy in Model.AvailableAllergies)
+                        {
+                            <input type="checkbox" class="btn-check visually-hidden" id="allergy-@allergy.Id" name="SelectedAllergyIds" value="@allergy.Id" autocomplete="off">
+                                <label class="btn btn-outline-primary" for="allergy-@allergy.Id">@allergy.Name</label>
+                        }
+                    </div>
+                    <span asp-validation-for="SelectedAllergyIds" class="text-danger"></span>
+                </div>
+
+
+                <!-- Diet field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Kostvaner</label>
+                    </div>
+                    <div class="col-6">
+                        @foreach (var diet in Model.AvailableDiets)
+                        {
+                            <input type="checkbox" class="btn-check visually-hidden" id="diet-@diet.Id" name="SelectedDietIds" value="@diet.Id" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="diet-@diet.Id">@diet.Name</label>
+                        }
+                    </div>
+                    <span asp-validation-for="SelectedDietIds" class="text-danger"></span>
+                </div>
+
+
+                <!-- Image field -->
+
+
+
+                <!-- Submit button -->
+                <div class="row">
+                    <div class="form-group col-8">
+                        <input type="submit" value="Opret færdigret" class="btn btn-lg btn-success w-100" />
+                    </div>
+                </div>
+            </form>
+            <!-- End Form -->
+
+        </div>
+        <!-- End Product Creation -->
+
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
 
+<!-- End Content Container -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }
