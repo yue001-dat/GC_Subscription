@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
+using Microsoft.AspNetCore.Hosting;
 
 
 namespace GC_Subscription.Pages.Products
@@ -15,9 +16,10 @@ namespace GC_Subscription.Pages.Products
     public class CreateModel : PageModel
     {
         private readonly GhostchefContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public List<Allergy> AvailableAllergies { get; set; }
-        public List<Diet> AvailableDiets { get; set; }
+        public List<Allergy>? AvailableAllergies { get; set; }
+        public List<Diet>? AvailableDiets { get; set; }
 
         [BindProperty]
         public Product Product { get; set; }
@@ -28,12 +30,13 @@ namespace GC_Subscription.Pages.Products
         [BindProperty]
         public List<int>? SelectedDietIds { get; set; }
 
-        //[BindProperty]
-        //public IFormFile? Image { get; set; }
+        [BindProperty]
+        public IFormFile? Image { get; set; }
 
-        public CreateModel(GhostchefContext context)
+        public CreateModel(GhostchefContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -50,6 +53,32 @@ namespace GC_Subscription.Pages.Products
             {
                 return Page();
             }
+
+            // Process image upload
+            if (Image != null && Image.Length > 0)
+            {
+                var folderName = "images";
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                // Ensure the directory exists, create it if not
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+
+                // Combine the directory and filename to get the full path
+                var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                // Save the uploaded image to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Image.CopyToAsync(stream);
+                }
+
+                Product.ImageUrl = $"/{folderName}/" + uniqueFileName;
+            }
+
 
             // Associate selected allergies with the product
             if (SelectedAllergyIds != null)
