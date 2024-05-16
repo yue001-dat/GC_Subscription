@@ -15,12 +15,11 @@ namespace GC_Subscription.Models
         public string Description { get; set; }
 
         [Required(ErrorMessage ="Angiv venligst et beløb")]
-        [Range(1, 1000, ErrorMessage = "Prisen skal være mellem 1 og 1000")]
+        [Range(1, int.MaxValue, ErrorMessage = "Angiv venligst et beløb")]
         public int Price { get; set; }
 
         public bool InStock { get; set; } = true;
         
-        // TODO: Adding this back, crashes the app on Product creation. Why? Sunrays or Lucifer... I dunno
         public string? ImageUrl { get; set; } 
 
         // Relational Fields

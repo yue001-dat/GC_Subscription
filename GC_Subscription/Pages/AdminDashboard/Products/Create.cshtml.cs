@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
-using Microsoft.AspNetCore.Hosting;
 
 
 namespace GC_Subscription.Pages.Products
@@ -33,6 +32,7 @@ namespace GC_Subscription.Pages.Products
         [BindProperty]
         public IFormFile? Image { get; set; }
 
+
         public CreateModel(GhostchefContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
@@ -43,6 +43,7 @@ namespace GC_Subscription.Pages.Products
         {
             AvailableAllergies = await _context.Allergy.ToListAsync();
             AvailableDiets = await _context.Diet.ToListAsync();
+
             return Page();
         }
 
