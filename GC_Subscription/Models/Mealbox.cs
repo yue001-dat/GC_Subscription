@@ -12,7 +12,7 @@ namespace GC_Subscription.Models
         [Required(ErrorMessage = "Angiv venligst en beskrivelse af måltidskassen")]
         public string Description { get; set; }
 
-        [Range(0, 1000, ErrorMessage = "Prisen skal være mellem 0 og 1000")]
+        [Range(0, 10000, ErrorMessage = "Prisen skal være mellem 0 og 10000")]
         public int Price { get; set; }
 
         public ICollection<Product> Products { get; set; } = [];

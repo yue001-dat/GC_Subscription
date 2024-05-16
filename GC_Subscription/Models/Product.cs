@@ -21,7 +21,7 @@ namespace GC_Subscription.Models
         
         // TODO: Fixing Image Uploading
         // Adding this back, crashes the app on Product creation. Why? Sunrays or Lucifer... I dunno
-        // public string ImageUrl { get; set; } 
+        public string ImageUrl { get; set; } 
 
         // Relational Fields
         public ICollection<Mealbox> Mealboxes { get; } = [];
