@@ -2,34 +2,37 @@
 @model GC_Subscription.Pages.Products.IndexModel
 
 @{
-    ViewData["Title"] = "Retter";
+    ViewData["Title"] = "Færdigretter";
 }
 
-<h1>Retter</h1>
+<h1>Færdigretter</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Opret ny</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].Name)
+                Billed
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].Description)
+                Navn
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].Price)
+                Beskrivelse
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].InStock)
+                Kostvaner
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].Allergies)
+                Allergier
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Product[0].Diets)
+                Lagerstatus
+            </th>
+            <th>
+                Pris
             </th>
             <th></th>
         </tr>
@@ -39,22 +42,13 @@
         {
             <tr>
                 <td>
+                    <img src="@item.ImageUrl" alt="Billede af retten" style="max-width: 100px; max-height: 100px;" />
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     <pre>@Html.DisplayFor(modelItem => item.Description)</pre>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InStock)
-                </td>
-                <td>
-                    @foreach (var allergy in item.Allergies)
-                    {
-                        @allergy.Name <br />
-                    }
                 </td>
                 <td>
                     @foreach (var diet in item.Diets)
@@ -63,9 +57,24 @@
                     }
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    @foreach (var allergy in item.Allergies)
+                    {
+                        @allergy.Name <br />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InStock)
+                </td>
+                <td>
+                    kr. @Html.DisplayFor(modelItem => item.Price),-
+                </td>
+
+
+
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
                 </td>
             </tr>
         }

@@ -2,45 +2,204 @@
 @model GC_Subscription.Pages.Mealboxes.EditModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Rediger";
 }
 
-<h1>Edit</h1>
 
-<h4>Mealbox</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Mealbox.Id" />
-            <div class="form-group">
-                <label asp-for="Mealbox.Name" class="control-label"></label>
-                <input asp-for="Mealbox.Name" class="form-control" />
-                <span asp-validation-for="Mealbox.Name" class="text-danger"></span>
+
+<!-- Style -->
+<style>
+    .display-6 {
+        font-size: 1.65rem !important;
+    }
+
+    img.product-image {
+        border-radius: 20px;
+    }
+
+    .admin-panel-inner-container {
+        border-radius: 8px;
+        border: 1px solid darkgrey !important;
+        padding: 16px 0px 16px 10px;
+        text-align: center !important;
+        margin-top: 50% !important;
+    }
+
+    .admin-panel {
+        text-align: left !important;
+    }
+
+
+        .admin-panel a.nav-link {
+            color: #000 !important;
+        }
+
+            .admin-panel a.nav-link.active {
+                font-weight: bold;
+            }
+
+            .admin-panel a.nav-link:hover {
+                text-decoration: underline;
+            }
+</style>
+
+<!-- Content Container -->
+<div class="container">
+
+    <div class="row">
+
+        <!-- Start Admin Menu -->
+        <div class="col-2">
+            <div class="admin-panel-inner-container">
+                <small><strong>Admin Panel</strong></small>
+                <ul class="nav flex-column admin-panel">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../Mealboxes/Create">Opret måltidskasse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="../Products/Create">Opret færdigret</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Rediger måltidskasse</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../Products">Rediger færdigret</a>
+                    </li>
+                </ul>
             </div>
-            <div class="form-group">
-                <label asp-for="Mealbox.Description" class="control-label"></label>
-                <input asp-for="Mealbox.Description" class="form-control" />
-                <span asp-validation-for="Mealbox.Description" class="text-danger"></span>
+        </div>
+        <!-- End Admin Menu -->
+
+
+        <!-- Start mealbox Creation -->
+        <div class="col-1"></div>
+
+
+        <div class="col-9">
+
+            <!-- Heading -->
+            <div class="row">
+                <h1 class="display-6">Rediger måltidskasse</h1>
+                <hr>
             </div>
 
-            <div class="form-group">
-                <label asp-for="Mealbox.Price" class="control-label"></label>
-                <input asp-for="Mealbox.Price" class="form-control" />
-                <span asp-validation-for="Mealbox.Price" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+            <!-- Start Form -->
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+                <!-- Hidden Id -->
+                <input type="hidden" asp-for="Mealbox.Id" />
+
+                <!-- Name field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Navn</label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Mealbox.Name" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Mealbox.Name" class="text-danger"></span>
+                </div>
+
+                <!-- Theme field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Tema</label>
+                    </div>
+                    <div class="col-6">
+                        <input asp-for="Mealbox.Theme" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Mealbox.Theme" class="text-danger"></span>
+                </div>
+
+                <!-- Description field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Beskrivelse</label>
+                    </div>
+                    <div class="col-6">
+                        <textarea asp-for="Mealbox.Description" class="form-control" cols="30" rows="10"></textarea>
+                    </div>
+                    <span asp-validation-for="Mealbox.Description" class="text-danger"></span>
+                </div>
+
+
+                <!-- Product field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Færdigretter</label>
+                    </div>
+                    <div class="col-6">
+                        @foreach (var product in Model.AvailableProducts)
+                        {
+                            var isChecked = Model.Mealbox.Products.Any(p => p.Id == product.Id);
+                            <input type="checkbox" class="btn-check visually-hidden" id="product-@product.Id" name="SelectedProductIds" value="@product.Id" autocomplete="off" @(isChecked ? "checked" : "")>
+                            <label class="btn btn-outline-primary" for="product-@product.Id">@product.Name</label>
+                        }
+                    </div>
+                </div>
+
+
+                <!-- Price field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Pris</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="input-group">
+                            <span class="input-group-text">DKK</span>
+                            <input asp-for="Mealbox.Price" class="form-control" step=1 />
+                            <span class="input-group-text">.00</span>
+                        </div>
+                    </div>
+                    <span asp-validation-for="Mealbox.Price" class="text-danger"></span>
+                </div>
+
+
+                <!-- Image field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Billede</label>
+                    </div>
+                    <div class="col-6">
+
+                        <!-- Show current image -->
+                        @if (!string.IsNullOrEmpty(Model.Mealbox.ImageUrl))
+                        {
+                            <img src="@Model.Mealbox.ImageUrl" alt="Nuværende billed" class="img-thumbnail" style="max-width: 200px; max-height: 200px;" />
+                        }
+                        else
+                        {
+                            <p>Intet billede tilgængeligt</p>
+                        }
+
+                        <!-- Upload nyt billede -->
+                        <input type="file" asp-for="Image" class="form-control" />
+                    </div>
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+
+
+                <!-- Submit button -->
+                <div class="row">
+                    <div class="form-group col-8">
+                        <input type="submit" value="Rediger færdigret" class="btn btn-lg btn-success w-100" />
+                    </div>
+                </div>
+            </form>
+            <!-- End Form -->
+
+        </div>
+        <!-- End Product Creation -->
+
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
 
+<!-- End Content Container -->
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

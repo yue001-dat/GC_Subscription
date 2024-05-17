@@ -13,14 +13,29 @@ namespace GC_Subscription.Pages.Products
 {
     public class EditModel : PageModel
     {
-        private readonly GC_Subscription.Data.GhostchefContext _context;
+        private readonly GhostchefContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+        public List<Allergy> AvailableAllergies { get; set; }
+        public List<Diet> AvailableDiets { get; set; }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
 
-        public EditModel(GC_Subscription.Data.GhostchefContext context)
+        [BindProperty]
+        public List<int>? SelectedAllergyIds { get; set; }
+
+        [BindProperty]
+        public List<int>? SelectedDietIds { get; set; }
+
+        [BindProperty]
+        public IFormFile? Image { get; set; }
+
+
+        public EditModel(GhostchefContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -30,12 +45,19 @@ namespace GC_Subscription.Pages.Products
                 return NotFound();
             }
 
-            var product =  await _context.Product.FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _context.Product.Include(p => p.Allergies)
+                                                .Include(p => p.Diets)
+                                                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (product == null)
             {
                 return NotFound();
             }
             Product = product;
+
+            AvailableAllergies = await _context.Allergy.ToListAsync();
+            AvailableDiets = await _context.Diet.ToListAsync();
+
             return Page();
         }
 
@@ -48,26 +70,63 @@ namespace GC_Subscription.Pages.Products
                 return Page();
             }
 
-            _context.Attach(Product).State = EntityState.Modified;
+            // Get current product from DB
+            var existingProduct = await _context.Product.FirstOrDefaultAsync(p => p.Id == Product.Id);
 
-            try
+            if (existingProduct != null)
             {
-                await _context.SaveChangesAsync();
+                existingProduct.Name = Product.Name;
+                existingProduct.Description = Product.Description;
+                existingProduct.Price = Product.Price;
+
+                // Image proces
+                if (Image != null && Image.Length > 0)
+                {
+                    var folderName = "images";
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                    // Save image to server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+
+                    // Update ImageUrl property
+                    existingProduct.ImageUrl = $"/{folderName}/" + uniqueFileName;
+                }
+
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(Product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!ProductExists(Product.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return RedirectToPage("./Index");
         }
+
 
         private bool ProductExists(int id)
         {

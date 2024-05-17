@@ -13,14 +13,26 @@ namespace GC_Subscription.Pages.Mealboxes
 {
     public class EditModel : PageModel
     {
-        private readonly GC_Subscription.Data.GhostchefContext _context;
+        private readonly GhostchefContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
+
+
+        public List<Product> AvailableProducts { get; set; }
 
         [BindProperty]
         public Mealbox Mealbox { get; set; } = default!;
 
-        public EditModel(GC_Subscription.Data.GhostchefContext context)
+        [BindProperty]
+        public List<int> SelectedProductIds { get; set; }
+
+        [BindProperty]
+        public IFormFile? Image { get; set; }
+
+
+        public EditModel(GhostchefContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -30,12 +42,17 @@ namespace GC_Subscription.Pages.Mealboxes
                 return NotFound();
             }
 
-            var mealbox =  await _context.Mealbox.FirstOrDefaultAsync(m => m.Id == id);
+            var mealbox =  await _context.Mealbox.Include(m => m.Products)
+                                                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (mealbox == null)
             {
                 return NotFound();
             }
             Mealbox = mealbox;
+
+            AvailableProducts = await _context.Product.ToListAsync();
+            
             return Page();
         }
 
@@ -48,7 +65,42 @@ namespace GC_Subscription.Pages.Mealboxes
                 return Page();
             }
 
-            _context.Attach(Mealbox).State = EntityState.Modified;
+            // Get current mealbox from DB
+            var existingMealbox = await _context.Mealbox.FirstOrDefaultAsync(m => m.Id == Mealbox.Id);
+
+            if (existingMealbox != null)
+            {
+                existingMealbox.Name = Mealbox.Name;
+                existingMealbox.Description = Mealbox.Description;
+                existingMealbox.Price = Mealbox.Price;
+
+                // Image proces
+                if (Image != null && Image.Length > 0)
+                {
+                    var folderName = "images";
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                    // Save image to server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+
+                    // Update ImageUrl property
+                    existingMealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
+                }
+            }
+
+            //// Update Mealbox properties
+            //_context.Attach(Mealbox).State = EntityState.Modified;
 
             try
             {

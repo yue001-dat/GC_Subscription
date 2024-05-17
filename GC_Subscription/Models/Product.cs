@@ -14,14 +14,13 @@ namespace GC_Subscription.Models
         [Required(ErrorMessage ="Angiv venligst en beskrivelse af retten")]
         public string Description { get; set; }
 
-        [Range(0, 1000, ErrorMessage ="Prisen skal være mellem 0 og 1000")]
+        [Required(ErrorMessage ="Angiv venligst et beløb")]
+        [Range(1, int.MaxValue, ErrorMessage = "Angiv venligst et beløb")]
         public int Price { get; set; }
 
         public bool InStock { get; set; } = true;
         
-        // TODO: Fixing Image Uploading
-        // Adding this back, crashes the app on Product creation. Why? Sunrays or Lucifer... I dunno
-        // public string ImageUrl { get; set; } 
+        public string? ImageUrl { get; set; } 
 
         // Relational Fields
         public ICollection<Mealbox> Mealboxes { get; } = [];

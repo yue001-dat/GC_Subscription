@@ -8,40 +8,58 @@
 <h1>Måltidskasser</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Opret ny</a>
 </p>
+
+
+<!-- Table Header -->
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Mealbox[0].Name)
+                Billed
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Mealbox[0].Description)
+                Navn
             </th>
             <th>
-                Products
+                Tema
+            </th>
+            <th>
+                Beskrivelse
+            </th>
+            <th>
+                Retter
             </th>
 
             <th>
-                Diets
+                Kostvaner
             </th>
             <th>
-                Allergies
+                Allergier
             </th>
 
             <th>
-                @Html.DisplayNameFor(model => model.Mealbox[0].Price)
+                Pris
             </th>
             <th></th>
         </tr>
     </thead>
+
+
+    <!-- Table Rows -->
     <tbody>
         @foreach (var item in Model.Mealbox)
         {
             <tr>
                 <td>
+                    <img src="@item.ImageUrl" alt="Billede af måltidskassen" style="max-width: 100px; max-height: 100px;" />
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Theme)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Description)
@@ -54,33 +72,36 @@
                     }
                 </td>
 
+                <!-- Diets -->
                 <td>
-                    @foreach (var product in item.Products)
+                    @foreach (var diet in item.Products.SelectMany(p => p.Diets)
+                   .Select(a => a.Name)
+                   .Distinct()
+                   .OrderBy(a => a, StringComparer.Create(new System.Globalization.CultureInfo("da-DK"), false)))
                     {
-                        @foreach (var diet in product.Diets.Distinct())
-                        {
-                            @diet.Name <br />
-                        }
+                        @diet <br />
+                    }
+                </td>
+
+
+                <!-- Allergies -->
+                <td>
+                    @foreach (var allergy in item.Products.SelectMany(p => p.Allergies)
+                   .Select(a => a.Name)
+                   .Distinct()
+                   .OrderBy(a => a, StringComparer.Create(new System.Globalization.CultureInfo("da-DK"), false)))
+                    {
+                        @allergy <br />
                     }
                 </td>
 
                 <td>
-                    @foreach (var product in item.Products)
-                    {
-                        @foreach (var allergy in product.Allergies.Distinct())
-                        {
-                            @allergy.Name <br />
-                        }
-                    }
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    kr. @Html.DisplayFor(modelItem => item.Price),-
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
                 </td>
             </tr>
         }

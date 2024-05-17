@@ -18,7 +18,7 @@ namespace GC_Subscription.Pages.Mealboxes
 
         public async Task OnGetAsync()
         {
-            // TODO : Viser stadig diæter og kostvaner dobbelt
+            // does something
             Mealbox = await _context.Mealbox
                                     .Include(m => m.Products)
                                     .ThenInclude(p => p.Diets)

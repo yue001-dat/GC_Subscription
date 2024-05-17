@@ -2,36 +2,36 @@
 @model GC_Subscription.Pages.Products.DeleteModel
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Slet";
 }
 
-<h1>Delete</h1>
+<h1>Slet</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Er du sikker på at du vil slette?</h3>
 <div>
-    <h4>Product</h4>
+    <h4>Færdigret</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Name)
+            Navn
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Product.Name)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Description)
+            Beskrivelse
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Product.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.Price)
+            Pris
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Product.Price)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Product.InStock)
+            På lager?
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Product.InStock)
@@ -40,7 +40,7 @@
     
     <form method="post">
         <input type="hidden" asp-for="Product.Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-page="./Index">Back to List</a>
+        <input type="submit" value="Slet" class="btn btn-danger" /> |
+        <a asp-page="./Index">Tilbage til oversigten</a>
     </form>
 </div>
