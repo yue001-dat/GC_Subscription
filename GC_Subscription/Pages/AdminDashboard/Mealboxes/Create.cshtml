@@ -132,7 +132,7 @@
                         @foreach (var product in Model.AvailableProducts)
                         {
                             <input type="checkbox" class="btn-check visually-hidden" id="product-@product.Id" name="SelectedProductIds" value="@product.Id" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="product-@product.Id">@product.Name</label>
+                            <label class="btn btn-outline-success" for="product-@product.Id">@product.Name</label>
                         }
                     </div>
                 </div>
