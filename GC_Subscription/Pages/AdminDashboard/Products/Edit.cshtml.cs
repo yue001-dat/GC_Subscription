@@ -16,8 +16,8 @@ namespace GC_Subscription.Pages.Products
         private readonly GhostchefContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public List<Allergy>? AvailableAllergies { get; set; }
-        public List<Diet>? AvailableDiets { get; set; }
+        public List<Allergy> AvailableAllergies { get; set; }
+        public List<Diet> AvailableDiets { get; set; }
 
         [BindProperty]
         public Product Product { get; set; } = default!;
@@ -70,73 +70,62 @@ namespace GC_Subscription.Pages.Products
                 return Page();
             }
 
-            // Update Product's properties
-            _context.Attach(Product).State = EntityState.Modified;
+            // Get current product from DB
+            var existingProduct = await _context.Product.FirstOrDefaultAsync(p => p.Id == Product.Id);
 
-            // Process image upload
-            if (Image != null && Image.Length > 0)
+            if (existingProduct != null)
             {
-                var folderName = "images";
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+                existingProduct.Name = Product.Name;
+                existingProduct.Description = Product.Description;
+                existingProduct.Price = Product.Price;
 
-                // Ensure the directory exists, create it if not
-                if (!Directory.Exists(uploadDir))
+                if (Image != null && Image.Length > 0)
                 {
-                    Directory.CreateDirectory(uploadDir);
+                    var folderName = "images";
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                    // Save image to server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+
+                    // Update ImageUrl property
+                    existingProduct.ImageUrl = $"/{folderName}/" + uniqueFileName;
                 }
 
-                // Combine the directory and filename to get the full path
-                var filePath = Path.Combine(uploadDir, uniqueFileName);
-
-                // Save the uploaded image to the specified path
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                try
                 {
-                    await Image.CopyToAsync(stream);
+                    await _context.SaveChangesAsync();
                 }
-
-                Product.ImageUrl = $"/{folderName}/" + uniqueFileName;
-            }
-
-            // Update Allergies
-            if (SelectedAllergyIds != null)
-            {
-                Product.Allergies = await _context.Allergy.Where(a => SelectedAllergyIds.Contains(a.Id)).ToListAsync();
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(Product.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
             }
             else
             {
-
-                Product.Allergies.Clear();
-            }
-
-            // Update Diets
-            if (SelectedDietIds != null)
-            {
-                Product.Diets = await _context.Diet.Where(d => SelectedDietIds.Contains(d.Id)).ToListAsync();
-            }
-            else
-            {
-                Product.Diets.Clear();
-            }
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(Product.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return NotFound();
             }
 
             return RedirectToPage("./Index");
         }
+
 
         private bool ProductExists(int id)
         {

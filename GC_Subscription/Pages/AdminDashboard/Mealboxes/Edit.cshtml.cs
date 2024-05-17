@@ -90,6 +90,7 @@ namespace GC_Subscription.Pages.Mealboxes
                 Mealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
             }
 
+            // Update Mealbox properties
             _context.Attach(Mealbox).State = EntityState.Modified;
 
             try
