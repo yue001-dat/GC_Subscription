@@ -134,7 +134,7 @@
                         @foreach (var diet in Model.AvailableDiets)
                         {
                             <input type="checkbox" class="btn-check visually-hidden" id="diet-@diet.Id" name="SelectedDietIds" value="@diet.Id" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="diet-@diet.Id">@diet.Name</label>
+                            <label class="btn btn-outline-success" for="diet-@diet.Id">@diet.Name</label>
                         }
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                         @foreach (var allergy in Model.AvailableAllergies)
                         {
                             <input type="checkbox" class="btn-check visually-hidden" id="allergy-@allergy.Id" name="SelectedAllergyIds" value="@allergy.Id" autocomplete="off">
-                                <label class="btn btn-outline-primary" for="allergy-@allergy.Id">@allergy.Name</label>
+                            <label class="btn btn-outline-success" for="allergy-@allergy.Id">@allergy.Name</label>
                         }
                     </div>
                 </div>

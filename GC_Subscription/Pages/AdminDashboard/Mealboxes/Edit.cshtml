@@ -135,7 +135,7 @@
                         {
                             var isChecked = Model.Mealbox.Products.Any(p => p.Id == product.Id);
                             <input type="checkbox" class="btn-check visually-hidden" id="product-@product.Id" name="SelectedProductIds" value="@product.Id" autocomplete="off" @(isChecked ? "checked" : "")>
-                            <label class="btn btn-outline-primary" for="product-@product.Id">@product.Name</label>
+                            <label class="btn btn-outline-success" for="product-@product.Id">@product.Name</label>
                         }
                     </div>
                 </div>

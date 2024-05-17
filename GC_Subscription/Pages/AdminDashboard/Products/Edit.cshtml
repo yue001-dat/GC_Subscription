@@ -140,7 +140,7 @@
                         {
                             var isChecked = Model.Product.Diets.Any(d => d.Id == diet.Id);
                             <input type="checkbox" class="btn-check visually-hidden" id="diet-@diet.Id" name="SelectedDietIds" value="@diet.Id" autocomplete="off" @(isChecked ? "checked" : "")>
-                            <label class="btn btn-outline-primary" for="diet-@diet.Id">@diet.Name</label>
+                            <label class="btn btn-outline-success" for="diet-@diet.Id">@diet.Name</label>
                         }
                     </div>
                 </div>
@@ -156,7 +156,7 @@
                         {
                             var isChecked = Model.Product.Allergies.Any(a => a.Id == allergy.Id);
                             <input type="checkbox" class="btn-check visually-hidden" id="allergy-@allergy.Id" name="SelectedAllergyIds" value="@allergy.Id" autocomplete="off" @(isChecked ? "checked" : "")>
-                            <label class="btn btn-outline-primary" for="allergy-@allergy.Id">@allergy.Name</label>
+                            <label class="btn btn-outline-success" for="allergy-@allergy.Id">@allergy.Name</label>
                         }
                     </div>
                 </div>
