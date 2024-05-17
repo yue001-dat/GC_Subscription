@@ -65,33 +65,42 @@ namespace GC_Subscription.Pages.Mealboxes
                 return Page();
             }
 
-            // Process image upload
-            if (Image != null && Image.Length > 0)
+            // Get current mealbox from DB
+            var existingMealbox = await _context.Mealbox.FirstOrDefaultAsync(m => m.Id == Mealbox.Id);
+
+            if (existingMealbox != null)
             {
-                var folderName = "images";
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+                existingMealbox.Name = Mealbox.Name;
+                existingMealbox.Description = Mealbox.Description;
+                existingMealbox.Price = Mealbox.Price;
 
-                // Ensure the directory exists, create it if not
-                if (!Directory.Exists(uploadDir))
+                // Image proces
+                if (Image != null && Image.Length > 0)
                 {
-                    Directory.CreateDirectory(uploadDir);
+                    var folderName = "images";
+                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                    if (!Directory.Exists(uploadDir))
+                    {
+                        Directory.CreateDirectory(uploadDir);
+                    }
+
+                    var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                    // Save image to server
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+
+                    // Update ImageUrl property
+                    existingMealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
                 }
-
-                // Combine the directory and filename to get the full path
-                var filePath = Path.Combine(uploadDir, uniqueFileName);
-
-                // Save the uploaded image to the specified path
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await Image.CopyToAsync(stream);
-                }
-
-                Mealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
             }
 
-            // Update Mealbox properties
-            _context.Attach(Mealbox).State = EntityState.Modified;
+            //// Update Mealbox properties
+            //_context.Attach(Mealbox).State = EntityState.Modified;
 
             try
             {

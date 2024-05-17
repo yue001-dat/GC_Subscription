@@ -79,6 +79,7 @@ namespace GC_Subscription.Pages.Products
                 existingProduct.Description = Product.Description;
                 existingProduct.Price = Product.Price;
 
+                // Image proces
                 if (Image != null && Image.Length > 0)
                 {
                     var folderName = "images";
