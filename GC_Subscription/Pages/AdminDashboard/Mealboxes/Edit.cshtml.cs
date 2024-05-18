@@ -73,6 +73,7 @@ namespace GC_Subscription.Pages.Mealboxes
                 existingMealbox.Name = Mealbox.Name;
                 existingMealbox.Description = Mealbox.Description;
                 existingMealbox.Price = Mealbox.Price;
+                existingMealbox.LastEdited = DateTime.Now;
 
                 // Image proces
                 if (Image != null && Image.Length > 0)
@@ -98,9 +99,6 @@ namespace GC_Subscription.Pages.Mealboxes
                     existingMealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
                 }
             }
-
-            //// Update Mealbox properties
-            //_context.Attach(Mealbox).State = EntityState.Modified;
 
             try
             {

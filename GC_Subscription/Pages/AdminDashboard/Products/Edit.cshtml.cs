@@ -78,6 +78,7 @@ namespace GC_Subscription.Pages.Products
                 existingProduct.Name = Product.Name;
                 existingProduct.Description = Product.Description;
                 existingProduct.Price = Product.Price;
+                existingProduct.LastEdited = DateTime.Now;
 
                 // Image proces
                 if (Image != null && Image.Length > 0)
