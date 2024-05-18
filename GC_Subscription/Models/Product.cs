@@ -16,11 +16,11 @@ namespace GC_Subscription.Models
 
         [Required(ErrorMessage ="Angiv venligst et beløb")]
         [Range(1, int.MaxValue, ErrorMessage = "Angiv venligst et beløb")]
-        public int Price { get; set; }
-
-        public bool InStock { get; set; } = true;
         
-        public string? ImageUrl { get; set; } 
+        public int Price { get; set; }
+        public bool InStock { get; set; } = true;
+        public string? ImageUrl { get; set; }
+        public DateTime LastEdited { get; set; }
 
         // Relational Fields
         public ICollection<Mealbox> Mealboxes { get; } = [];
