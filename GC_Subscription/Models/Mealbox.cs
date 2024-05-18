@@ -18,11 +18,11 @@ namespace GC_Subscription.Models
         [Range(1, int.MaxValue, ErrorMessage = "Angiv venligst et beløb")]
         public int Price { get; set; }
 
+        public string? ImageUrl { get; set; }
         public string? Theme { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
-
-        public string? ImageUrl { get; set; }
+        public DateTime LastEdited {  get; set; }
 
         // Relational Fields
         public ICollection<Product> Products { get; set; } = [];

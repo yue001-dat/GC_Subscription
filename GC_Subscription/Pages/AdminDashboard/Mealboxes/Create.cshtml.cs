@@ -79,6 +79,9 @@ namespace GC_Subscription.Pages.Mealboxes
             // Associate selected products with the product
             Mealbox.Products = await _context.Product.Where(p => SelectedProductIds.Contains(p.Id)).ToListAsync();
 
+            // Save date
+            Mealbox.LastEdited = DateTime.Now;
+
             // Save Mealbox
             _context.Mealbox.Add(Mealbox);
             await _context.SaveChangesAsync();

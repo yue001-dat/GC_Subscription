@@ -109,6 +109,9 @@ namespace GC_Subscription.Pages.Products
                 }
             }
 
+            // Save date
+            Product.LastEdited = DateTime.Now;
+
             // Save Product
             _context.Product.Add(Product);
             await _context.SaveChangesAsync();
