@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace GC_Subscription.Pages.AdminDashboard.Mealboxes
+namespace GC_Subscription.Pages.AdminDashboard.Products
 {
-    public class Index1Model : PageModel
+    public class MockupModel : PageModel
     {
         public void OnGet()
         {
