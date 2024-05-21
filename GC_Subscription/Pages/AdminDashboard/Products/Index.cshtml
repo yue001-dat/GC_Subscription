@@ -4,7 +4,10 @@
 }
 
 <div class="container py-5">
-    <h1 class="text-center mb-5">Adminpanel for færdigretter</h1>
+    <h1 class="text-center">Adminpanel for færdigretter</h1>
+    <div class="text-center mb-4">
+        <a href="../AdminDashboard/Products/Create" class="btn btn-primary">Opret færdigret</a>
+    </div>
     <div class="row">
         @foreach (var item in Model.Product)
         {

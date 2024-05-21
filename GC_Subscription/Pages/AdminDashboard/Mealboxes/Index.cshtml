@@ -4,7 +4,11 @@
 }
 
 <div class="container py-5">
-    <h1 class="text-center mb-5">Adminpanel for Måltidskasser</h1>
+    <h1 class="text-center">Adminpanel for Måltidskasser</h1>
+    <div class="text-center mb-4">
+        <a href="../AdminDashboard/Mealboxes/Create" class="btn btn-primary">Opret måltidskasse</a>
+    </div>
+
     <div class="row">
         @foreach (var item in Model.Mealbox)
         {
