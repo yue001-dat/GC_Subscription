@@ -3,77 +3,25 @@
 
 @{
     ViewData["Title"] = "Rediger";
+    ViewData["ActivePage"] = "EditProduct";
 }
 
 
 
-<!-- Style -->
-<style>
-    .display-6 {
-        font-size: 1.65rem !important;
-    }
 
-    img.product-image {
-        border-radius: 20px;
-    }
-
-    .admin-panel-inner-container {
-        border-radius: 8px;
-        border: 1px solid darkgrey !important;
-        padding: 16px 0px 16px 10px;
-        text-align: center !important;
-        margin-top: 50% !important;
-    }
-
-    .admin-panel {
-        text-align: left !important;
-    }
-
-
-        .admin-panel a.nav-link {
-            color: #000 !important;
-        }
-
-            .admin-panel a.nav-link.active {
-                font-weight: bold;
-            }
-
-            .admin-panel a.nav-link:hover {
-                text-decoration: underline;
-            }
-</style>
 
 <!-- Content Container -->
 <div class="container">
 
     <div class="row">
 
-        <!-- Start Admin Menu -->
-        <div class="col-2">
-            <div class="admin-panel-inner-container">
-                <small><strong>Admin Panel</strong></small>
-                <ul class="nav flex-column admin-panel">
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="../Mealboxes/Create">Opret måltidskasse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="../Products/Create">Opret færdigret</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../Mealboxes">Rediger måltidskasse</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Rediger færdigret</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <!-- End Admin Menu -->
+
+        <!-- Include Admin Menu -->
+        @await Html.PartialAsync("../Shared/_AdminMenu")
 
 
         <!-- Start mealbox Creation -->
         <div class="col-1"></div>
-
 
         <div class="col-9">
 

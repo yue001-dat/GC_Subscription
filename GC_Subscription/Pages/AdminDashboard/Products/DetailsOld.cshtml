@@ -1,0 +1,74 @@
+﻿@page
+@model GC_Subscription.Pages.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<style>
+    .description-text {
+        white-space: pre-line; /* Ombrydning af tekst */
+        overflow-wrap: break-word; /* Ombryd lange ord */
+    }
+
+    .description-text .bold {
+        font-weight: bold;
+    }
+</style>
+
+<h1>Details</h1>
+
+<div>
+    <h4>Product</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Navn
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Beskrivelse
+        </dt>
+        <dd class="col-sm-10">
+            <div class="description-text">
+                @Html.DisplayFor(model => model.Product.Description)
+            </div>
+        </dd>
+        <dt class="col-sm-2">
+            Pris
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.Price)
+        </dd>
+        <dt class="col-sm-2">
+            På Lager?
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Product.InStock)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Rediger</a> |
+    <a asp-page="./Index">Tilbage til oversigten</a>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const descriptionDiv = document.querySelector('.description-text');
+        const text = descriptionDiv.innerHTML;
+
+        // Split tekst into lines
+        const lines = text.split('\n');
+
+        // Process each line to make the text before and including ':' bold
+        const updatedLines = lines.map(line => {
+            return line.replace(/(^[^:]+:)/gm, '<span class="bold">$1</span>');
+        });
+
+        // Join lines back with newlines
+        descriptionDiv.innerHTML = updatedLines.join('\n');
+    });
+</script>

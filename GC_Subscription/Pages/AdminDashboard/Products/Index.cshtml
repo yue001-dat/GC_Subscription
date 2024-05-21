@@ -20,9 +20,6 @@
                 Navn
             </th>
             <th>
-                Beskrivelse
-            </th>
-            <th>
                 Kostvaner
             </th>
             <th>
@@ -46,9 +43,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <pre>@Html.DisplayFor(modelItem => item.Description)</pre>
                 </td>
                 <td>
                     @foreach (var diet in item.Diets)
