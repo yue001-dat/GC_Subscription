@@ -18,7 +18,6 @@
                         <div class="btn-container">
                             @foreach (var diet in item.Diets)
                             {
-
                                 <button type="button" class="btn btn-success btn-sm mb-2"> @diet.Name <br /></button>
                             }
 
@@ -26,19 +25,16 @@
                             {
                                 <button type="button" class="btn btn-danger btn-sm mb-2"> @allergy.Name <br /></button>
                             }
-                          
                         </div>
                         <p class="card-text card-text-price"> kr. @Html.DisplayFor(modelItem => item.Price),-</p>
-                        <div align="right">
-                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-info-circle"></i></a> <!-- Details/Open icon -->
-                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
-                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-link"><i class="far fa-trash-alt" style="color: red;"></i></a> <!-- Delete icon -->
-                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-info-circle"></i></a> <!-- Details/Open icon -->
+                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
+                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-link"><i class="far fa-trash-alt" style="color: red;"></i></a> <!-- Delete icon -->
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
-
-
