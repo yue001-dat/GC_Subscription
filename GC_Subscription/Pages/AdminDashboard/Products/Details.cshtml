@@ -1,74 +1,95 @@
 ﻿@page
 @model GC_Subscription.Pages.Products.DetailsModel
-
 @{
-    ViewData["Title"] = "Details";
 }
 
-<style>
-    .description-text {
-        white-space: pre-line; /* Ombrydning af tekst */
-        overflow-wrap: break-word; /* Ombryd lange ord */
-    }
+@{
+    ViewData["Title"] = "Detaljer";
+}
 
-    .description-text .bold {
-        font-weight: bold;
+
+<style>
+    .bold-text {
+        margin-top: 10px;
     }
 </style>
 
-<h1>Details</h1>
+<!-- Content Container -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        
+        <!-- Center the column -->
+        <div class="col-lg-8 mb-4">
+            <div class="row">
+                
+                <!-- Left column w. image -->
+                <div class="col-md-4 mb-4">
+                    <img src="@Model.Product.ImageUrl" class="img-fluid details-image" alt="Product Image">
+                </div>
+                
+                <!-- Right column w. text -->
+                <div class="col-md-8">
+                    <div class="card meal-box-card">
 
-<div>
-    <h4>Product</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Navn
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Name)
-        </dd>
-        <dt class="col-sm-2">
-            Beskrivelse
-        </dt>
-        <dd class="col-sm-10">
-            <div class="description-text">
-                @Html.DisplayFor(model => model.Product.Description)
+                        <!-- Card Header -->
+                        <div class="card-header">
+                            <h5>@Model.Product.Name</h5>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="card-body">
+
+
+                            <!-- Splits up the description text into individual lines -->
+                            <div class="description-container">
+                                @foreach (var descriptionPart in Model.Product.Description.Split("\n", StringSplitOptions.RemoveEmptyEntries))
+                                {
+                                    <!-- Lines with :-signs is bolded -->
+                                    if (descriptionPart.Contains(":"))
+                                    {
+                                        <p class="card-text text-muted bold-text mb-0"><strong>@descriptionPart.Trim()</strong></p>
+                                    }
+                                    else
+                                    {
+                                        <p class="card-text text-muted mb-0">@descriptionPart.Trim()</p>
+                                    }
+                                }
+                            </div>
+
+                            
+                            <!-- Diets and Allergies -->
+                            <div>
+                                <div class="btn-container">
+                                    @foreach (var diet in Model.Product.Diets)
+                                    {
+                                        <button type="button" class="btn btn-success btn-sm mb-2">@diet.Name</button>
+                                    }
+                                </div>
+                                <div class="btn-container">
+                                    @foreach (var allergy in Model.Product.Allergies)
+                                    {
+                                        <button type="button" class="btn btn-danger btn-sm mb-2">@allergy.Name</button>
+                                    }
+                                </div>
+                            </div>
+
+
+                            <!-- Price -->
+                            <div>
+                                <p class="card-text card-text-price">kr. @Model.Product.Price</p>
+                            </div>
+
+
+                            <!-- Function Icons -->
+                            <div align="right">
+                                <a asp-page="./Index"><i class="fas fa-arrow-left"></i></a> <!-- Return icon -->
+                                <a asp-page="./Edit" asp-route-id="@Model.Product.Id"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
+                                <a asp-page="./Delete" asp-route-id="@Model.Product.Id"><i class="far fa-trash-alt" style="color: red;"></i></a> <!-- Delete icon -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </dd>
-        <dt class="col-sm-2">
-            Pris
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.Price)
-        </dd>
-        <dt class="col-sm-2">
-            På Lager?
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Product.InStock)
-        </dd>
-    </dl>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.Product.Id">Rediger</a> |
-    <a asp-page="./Index">Tilbage til oversigten</a>
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const descriptionDiv = document.querySelector('.description-text');
-        const text = descriptionDiv.innerHTML;
-
-        // Split tekst into lines
-        const lines = text.split('\n');
-
-        // Process each line to make the text before and including ':' bold
-        const updatedLines = lines.map(line => {
-            return line.replace(/(^[^:]+:)/gm, '<span class="bold">$1</span>');
-        });
-
-        // Join lines back with newlines
-        descriptionDiv.innerHTML = updatedLines.join('\n');
-    });
-</script>

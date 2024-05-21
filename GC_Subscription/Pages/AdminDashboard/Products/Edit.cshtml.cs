@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
@@ -71,7 +67,10 @@ namespace GC_Subscription.Pages.Products
             }
 
             // Get current product from DB
-            var existingProduct = await _context.Product.FirstOrDefaultAsync(p => p.Id == Product.Id);
+            var existingProduct = await _context.Product
+                .Include(p => p.Allergies)
+                .Include(p => p.Diets)
+                .FirstOrDefaultAsync(p => p.Id == Product.Id);
 
             if (existingProduct != null)
             {
@@ -79,6 +78,34 @@ namespace GC_Subscription.Pages.Products
                 existingProduct.Description = Product.Description;
                 existingProduct.Price = Product.Price;
                 existingProduct.LastEdited = DateTime.Now;
+
+                // Update selected allergies
+                existingProduct.Allergies.Clear();
+                if (SelectedAllergyIds != null)
+                {
+                    foreach (var allergyId in SelectedAllergyIds)
+                    {
+                        var allergy = await _context.Allergy.FindAsync(allergyId);
+                        if (allergy != null)
+                        {
+                            existingProduct.Allergies.Add(allergy);
+                        }
+                    }
+                }
+
+                // Update selected diets
+                existingProduct.Diets.Clear();
+                if (SelectedDietIds != null)
+                {
+                    foreach (var dietId in SelectedDietIds)
+                    {
+                        var diet = await _context.Diet.FindAsync(dietId);
+                        if (diet != null)
+                        {
+                            existingProduct.Diets.Add(diet);
+                        }
+                    }
+                }
 
                 // Image proces
                 if (Image != null && Image.Length > 0)

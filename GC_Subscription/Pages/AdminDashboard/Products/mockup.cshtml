@@ -6,20 +6,18 @@
 <div class="container py-5">
     <h1 class="text-center mb-5">Adminpanel for færdigretter</h1>
     <div class="row">
-        @for (int i = 0; i < 12; i++)
+        @for (int i = 0; i < 8; i++)
         {
             <div class="col-lg-3 mb-4">
-                <div class="card meal-box-card">
+                <div class="card meal-box-card meal-box-card-hover">
                     <img src="~/images/009ff709-9c3e-4069-b0e8-1e0b57de559c_test.png" class="card-img-top" alt="...">
                     <div class="card-header">
                         <h5>Færdigret @(i + 1)</h5>
                     </div>
                     <div class="card-body">
-                        <div>
+                        <div class="btn-container">
                             <button type="button" class="btn btn-success btn-sm mb-2">Kostvaner</button>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-success btn-sm mb-2">Allergier</button>
+                            <button type="button" class="btn btn-danger btn-sm mb-2">Allergier</button>
                         </div>
                         <p class="card-text card-text-price">kr. 85,-</p>
                         <div align="right">

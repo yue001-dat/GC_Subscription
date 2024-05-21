@@ -2,10 +2,6 @@
     font-size: 1.65rem !important;
 }
 
-img.product-image {
-    border-radius: 20px;
-}
-
 .admin-panel-inner-container {
     border-radius: 8px;
     border: 1px solid darkgrey !important;
@@ -17,7 +13,6 @@ img.product-image {
 .admin-panel {
     text-align: left !important;
 }
-
 
 .admin-panel a.nav-link {
     color: #000 !important;
@@ -34,14 +29,21 @@ img.product-image {
 .meal-box-card {
     border: 2px solid;
     border-radius: 15px;
-    transition: transform 0.2s ease;
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
     overflow: hidden;
 }
 
-    .meal-box-card:hover {
-        transform: translateY(-5px);
-    }
+.details-image {
+    border: 2px solid;
+    border-radius: 15px;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+.meal-box-card-hover:hover {
+    transform: translateY(-5px);
+    transition: transform 0.2s ease;
+}
 
 .card-header {
     display: flex;
@@ -56,4 +58,12 @@ img.product-image {
 
 .btn-link {
     margin-left: 5px;
+}
+
+.description-container {
+    margin-bottom: 20px;
+}
+
+.btn-container {
+    display: inline-block;
 }
