@@ -102,3 +102,17 @@
     transform: translateY(-5px);
     transition: transform 0.2s ease;
 }
+
+.theme-container {
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.date-container {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.date-container p {
+    margin-right: 20px; /* Adjust spacing between date elements */
+}
