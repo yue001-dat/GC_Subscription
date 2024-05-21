@@ -61,11 +61,14 @@ namespace GC_Subscription.Pages.Mealboxes
                 return Page();
             }
 
-            // Get current mealbox from DB
-            var existingMealbox = await _context.Mealbox.FirstOrDefaultAsync(m => m.Id == Mealbox.Id);
+            // Get current mealbox from DB along with its products
+            var existingMealbox = await _context.Mealbox
+                                                .Include(m => m.Products)
+                                                .FirstOrDefaultAsync(m => m.Id == Mealbox.Id);
 
             if (existingMealbox != null)
             {
+                // Update mealbox properties
                 existingMealbox.Name = Mealbox.Name;
                 existingMealbox.Description = Mealbox.Description;
                 existingMealbox.Price = Mealbox.Price;
@@ -73,6 +76,20 @@ namespace GC_Subscription.Pages.Mealboxes
                 existingMealbox.Theme = Mealbox.Theme;
                 existingMealbox.DateFrom = Mealbox.DateFrom;
                 existingMealbox.DateTo = Mealbox.DateTo;
+
+                // Update associated products
+                if (SelectedProductIds != null)
+                {
+                    existingMealbox.Products.Clear(); // Clear existing associations
+                    foreach (var productId in SelectedProductIds)
+                    {
+                        var product = await _context.Product.FindAsync(productId);
+                        if (product != null)
+                        {
+                            existingMealbox.Products.Add(product);
+                        }
+                    }
+                }
 
                 // Image process
                 if (Image != null && Image.Length > 0)
@@ -99,6 +116,7 @@ namespace GC_Subscription.Pages.Mealboxes
                 }
             }
 
+            // Tries to save changes to DB
             try
             {
                 await _context.SaveChangesAsync();
