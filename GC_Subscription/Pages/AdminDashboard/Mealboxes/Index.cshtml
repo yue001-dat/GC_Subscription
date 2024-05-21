@@ -4,13 +4,14 @@
 }
 
 <div class="container py-5">
-    <h1 class="text-center mb-5">Adminpanel for færdigretter</h1>
+    <h1 class="text-center mb-5">Adminpanel for Måltidskasser</h1>
     <div class="row">
         @foreach (var item in Model.Mealbox)
         {
             <div class="col-lg-3 mb-4">
                 <div class="card meal-box-card meal-box-card-hover">
-                    <img src="@item.ImageUrl" alt="Billede af måltidskassen" style="max-width: 100px; max-height: 100px;" />                    <div class="card-header">
+                    <img src="@item.ImageUrl" alt="Billede af måltidskassen" class="card-img-top" />
+                    <div class="card-header">
                         <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
                     </div>
                     <div class="card-body">
