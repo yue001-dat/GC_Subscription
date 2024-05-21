@@ -9,7 +9,7 @@
 
 
 <!-- Content Container -->
-<div class="container">
+<div class="container py-5">
 
     <div class="row">
 
@@ -59,6 +59,32 @@
                     </div>
                     <span asp-validation-for="Mealbox.Theme" class="text-danger"></span>
                 </div>
+
+
+                <!-- DateFrom and DateTo fields -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">Dato</label>
+                    </div>
+                    <div class="col-3">
+                        <label class="col-form-label">Start</label>
+                        <input asp-for="Mealbox.DateFrom" type="date" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="Mealbox.DateFrom" class="text-danger"></span>
+                    </div>
+                    <div class="col-3">
+                        <label class="col-form-label">Slut</label>
+                        <input asp-for="Mealbox.DateTo" type="date" class="form-control" autocomplete="off" />
+                        <span asp-validation-for="Mealbox.DateTo" class="text-danger"></span>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
 
                 <!-- Description field -->
                 <div class="form-group row align-items-center mb-2">
@@ -131,7 +157,7 @@
                 <!-- Submit button -->
                 <div class="row">
                     <div class="form-group col-8">
-                        <input type="submit" value="Rediger færdigret" class="btn btn-lg btn-success w-100" />
+                        <input type="submit" value="Opdater" class="btn btn-lg btn-success w-100" />
                     </div>
                 </div>
             </form>
