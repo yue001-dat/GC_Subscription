@@ -1,15 +1,20 @@
 ﻿@page
 @model GC_Subscription.Pages.Mealboxes.IndexModel
+
 @{
+    ViewData["Title"] = "Rediger";
+    ViewData["ActivePage"] = "IndexMealbox";
 }
 
+
 <div class="container py-5">
-    <h1 class="text-center">Adminpanel for Måltidskasser</h1>
-    <div class="text-center mb-4">
-        <a href="../AdminDashboard/Mealboxes/Create" class="btn btn-primary">Opret måltidskasse</a>
-    </div>
+
 
     <div class="row">
+
+        <!-- Include Admin Menu -->
+        @await Html.PartialAsync("../Shared/_AdminMenu")
+
         @foreach (var item in Model.Mealbox)
         {
             <div class="col-lg-3 mb-4">

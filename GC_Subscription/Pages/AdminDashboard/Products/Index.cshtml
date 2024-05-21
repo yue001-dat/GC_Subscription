@@ -1,14 +1,18 @@
 ﻿@page
 @model GC_Subscription.Pages.Products.IndexModel
+
 @{
+    ViewData["Title"] = "Rediger";
+    ViewData["ActivePage"] = "IndexProduct";
 }
 
 <div class="container py-5">
-    <h1 class="text-center">Adminpanel for færdigretter</h1>
-    <div class="text-center mb-4">
-        <a href="../AdminDashboard/Products/Create" class="btn btn-primary">Opret færdigret</a>
-    </div>
+    
     <div class="row">
+
+        <!-- Include Admin Menu -->
+        @await Html.PartialAsync("../Shared/_AdminMenu")
+
         @foreach (var item in Model.Product)
         {
             <div class="col-lg-3 mb-4">

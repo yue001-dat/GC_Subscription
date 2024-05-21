@@ -7,17 +7,18 @@
         <small><strong>Admin Panel</strong></small>
         <ul class="nav flex-column admin-panel">
             <li class="nav-item">
-                <a class="nav-link @(activePage == "CreateMealbox" ? "active" : "")" href="../Mealboxes/Create">Opret måltidskasse</a>
+                <a class="nav-link @(activePage == "IndexMealbox" ? "active" : "")" href="/AdminDashboard/Mealboxes">Måltidskasser</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activePage == "CreateProduct" ? "active" : "")" href="../Products/Create">Opret færdigret</a>
+                <a class="nav-link @(activePage == "IndexProduct" ? "active" : "")" href="/AdminDashboard/Products">Færdigretter</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activePage == "EditMealbox" ? "active" : "")" href="../Mealboxes">Rediger måltidskasse</a>
+                <a class="nav-link @(activePage == "CreateMealbox" ? "active" : "")" href="/AdminDashboard/Mealboxes/Create">Opret måltidskasse</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @(activePage == "EditProduct" ? "active" : "")" href="../Products">Rediger færdigret</a>
+                <a class="nav-link @(activePage == "CreateProduct" ? "active" : "")" href="/AdminDashboard/Products/Create">Opret færdigret</a>
             </li>
+
         </ul>
     </div>
 </div>
