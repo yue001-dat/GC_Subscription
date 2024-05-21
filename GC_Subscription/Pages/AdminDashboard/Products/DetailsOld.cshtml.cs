@@ -1,4 +1,7 @@
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,11 +10,11 @@ using GC_Subscription.Models;
 
 namespace GC_Subscription.Pages.Products
 {
-    public class DetailsModel : PageModel
+    public class DetailsOldModel : PageModel
     {
-        private readonly GhostchefContext _context;
+        private readonly GC_Subscription.Data.GhostchefContext _context;
 
-        public DetailsModel(GhostchefContext context)
+        public DetailsOldModel(GC_Subscription.Data.GhostchefContext context)
         {
             _context = context;
         }
@@ -25,11 +28,7 @@ namespace GC_Subscription.Pages.Products
                 return NotFound();
             }
 
-            var product = await _context.Product
-                                        .Include(p => p.Allergies)
-                                        .Include(p => p.Diets)
-                                        .FirstOrDefaultAsync(p => p.Id == id);
-            
+            var product = await _context.Product.FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
             {
                 return NotFound();
