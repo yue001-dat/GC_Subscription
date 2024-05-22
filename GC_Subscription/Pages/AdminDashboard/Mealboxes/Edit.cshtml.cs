@@ -13,13 +13,12 @@ namespace GC_Subscription.Pages.Mealboxes
         private readonly IWebHostEnvironment _webHostEnvironment;
 
 
-        public List<Product> AvailableProducts { get; set; }
-
+        public List<Product> AvailableProducts { get; set; } = default!;
         [BindProperty]
         public Mealbox Mealbox { get; set; } = default!;
 
         [BindProperty]
-        public List<int> SelectedProductIds { get; set; }
+        public List<int> SelectedProductIds { get; set; } = default!;
 
         [BindProperty]
         public IFormFile? Image { get; set; }

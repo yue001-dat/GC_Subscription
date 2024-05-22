@@ -1,12 +1,20 @@
 ﻿
-/* -- Admin Panel Start */
+
+/* -- Always show scroll bar --*/
+html {
+    overflow-y: scroll;
+}
+
+
+/* -- Admin Panel Start -- */
 
 .admin-panel-inner-container {
-    border-radius: 8px;
-    border: 1px solid darkgrey !important;
+    border-radius: 15px;
+    border: 2px solid black !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
     padding: 16px 0px 16px 10px;
-    text-align: center !important;
-    margin-top: 50% !important;
+    text-align: !important;
+    position: fixed;
 }
 
 .admin-panel {
@@ -15,6 +23,7 @@
 
 .admin-panel a.nav-link {
     color: #000 !important;
+    width: 180px;
 }
 
 .admin-panel a.nav-link.active {
@@ -25,7 +34,7 @@
     text-decoration: underline;
 }
 
-/* -- Admin Panel End */
+/* -- Admin Panel End -- */
 
 
 .display-6 {
@@ -104,15 +113,15 @@
 }
 
 .theme-container {
-    margin-bottom: 10px; /* Adjust margin as needed */
+    margin-bottom: 10px; 
 }
 
 .date-container {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px; /* Adjust margin as needed */
+    margin-bottom: 10px; 
 }
 
 .date-container p {
-    margin-right: 20px; /* Adjust spacing between date elements */
+    margin-right: 20px; 
 }
