@@ -6,7 +6,7 @@ using GC_Subscription.Data;
 using GC_Subscription.Models;
 
 
-namespace GC_Subscription.Pages.SubscriptionBuyMealbox
+namespace GC_Subscription.Pages.Buy
 {
     public class IndexModel : PageModel
     {

@@ -1,5 +1,12 @@
 ﻿
-/* -- Admin Panel Start */
+
+/* -- Always show scroll bar --*/
+html {
+    overflow-y: scroll;
+}
+
+
+/* -- Admin Panel Start -- */
 
 .admin-panel-inner-container {
     border-radius: 8px;
@@ -25,7 +32,7 @@
     text-decoration: underline;
 }
 
-/* -- Admin Panel End */
+/* -- Admin Panel End -- */
 
 
 .display-6 {
