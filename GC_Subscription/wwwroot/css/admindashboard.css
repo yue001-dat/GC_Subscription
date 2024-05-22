@@ -104,15 +104,15 @@
 }
 
 .theme-container {
-    margin-bottom: 10px; /* Adjust margin as needed */
+    margin-bottom: 10px; 
 }
 
 .date-container {
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: 10px; /* Adjust margin as needed */
+    margin-bottom: 10px; 
 }
 
 .date-container p {
-    margin-right: 20px; /* Adjust spacing between date elements */
+    margin-right: 20px; 
 }
