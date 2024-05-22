@@ -9,11 +9,12 @@ html {
 /* -- Admin Panel Start -- */
 
 .admin-panel-inner-container {
-    border-radius: 8px;
-    border: 1px solid darkgrey !important;
+    border-radius: 15px;
+    border: 2px solid black !important;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
     padding: 16px 0px 16px 10px;
-    text-align: center !important;
-    margin-top: 50% !important;
+    text-align: !important;
+    position: fixed;
 }
 
 .admin-panel {
@@ -22,6 +23,7 @@ html {
 
 .admin-panel a.nav-link {
     color: #000 !important;
+    width: 180px;
 }
 
 .admin-panel a.nav-link.active {
