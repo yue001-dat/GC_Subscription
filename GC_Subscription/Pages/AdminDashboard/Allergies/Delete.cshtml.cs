@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +9,9 @@ namespace GC_Subscription.Pages.Allergies
 {
     public class DeleteModel : PageModel
     {
-        private readonly GC_Subscription.Data.GhostchefContext _context;
+        private readonly GhostchefContext _context;
 
-        public DeleteModel(GC_Subscription.Data.GhostchefContext context)
+        public DeleteModel(GhostchefContext context)
         {
             _context = context;
         }
