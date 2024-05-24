@@ -23,7 +23,7 @@ html {
 
 .admin-panel a.nav-link {
     color: #000 !important;
-    width: 180px;
+    min-width: 180px !important;
 }
 
 .admin-panel a.nav-link.active {
