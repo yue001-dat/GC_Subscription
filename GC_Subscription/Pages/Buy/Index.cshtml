@@ -248,13 +248,22 @@
                         
         var name = selectedOption.getAttribute('data-name');
         var description = selectedOption.getAttribute('data-description');
-
-                       
+                   
         tooltipElement.innerHTML = `
                 <p class="my-tooltip">
                     <strong>${name}</strong>
                 </p>
-                <p>${description}</p> `;
+
+                <p>
+                    <strong>Protein:</strong> X gram
+                    <br/>
+                    <strong>Fedt:</strong> X gram
+                    <br/>
+                    <strong>Kulhydrater:</strong> X gram
+                    <br/>
+                    <strong>Kalorier:</strong> X kcal
+                </p>
+                 `;
 
         document.addEventListener('DOMContentLoaded', function () {
             for (var day = 1; day <= 4; day++) {
