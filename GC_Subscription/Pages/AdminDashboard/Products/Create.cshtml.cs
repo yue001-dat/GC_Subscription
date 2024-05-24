@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
@@ -47,7 +43,7 @@ namespace GC_Subscription.Pages.Products
             return Page();
         }
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -56,29 +52,7 @@ namespace GC_Subscription.Pages.Products
             }
 
             // Process image upload
-            if (Image != null && Image.Length > 0)
-            {
-                var folderName = "images";
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
-
-                // Ensure the directory exists, create it if not
-                if (!Directory.Exists(uploadDir))
-                {
-                    Directory.CreateDirectory(uploadDir);
-                }
-
-                // Combine the directory and filename to get the full path
-                var filePath = Path.Combine(uploadDir, uniqueFileName);
-
-                // Save the uploaded image to the specified path
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await Image.CopyToAsync(stream);
-                }
-
-                Product.ImageUrl = $"/{folderName}/" + uniqueFileName;
-            }
+            await ProcessImageAsync();
 
 
             // Associate selected allergies with the product
@@ -118,5 +92,34 @@ namespace GC_Subscription.Pages.Products
 
             return RedirectToPage("./Index");
         }
+
+        #region Private Helper Functions
+        private async Task ProcessImageAsync()
+        {
+            if (Image != null && Image.Length > 0)
+            {
+                var folderName = "images";
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                // Ensure the directory exists, create it if not
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+
+                // Combine the directory and filename to get the full path
+                var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                // Save the uploaded image to the specified path
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Image.CopyToAsync(stream);
+                }
+
+                Product.ImageUrl = $"/{folderName}/" + uniqueFileName;
+            }
+        }
+        #endregion
     }
 }
