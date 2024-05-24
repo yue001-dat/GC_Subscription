@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
      
-        <div class="col col-2">
+        <div class="col col-3">
             @await Html.PartialAsync("../Shared/_AdminMenu")
         </div>
 
@@ -17,7 +17,7 @@
             <div class="row">
             @foreach (var item in Model.Product)
             {
-                <div class="col-lg-3 mb-3">
+                <div class="col-sm-2 col-md-4 col-lg-4 mb-3">
                     <div class="card meal-box-card meal-box-card-hover">
                         <img src="@item.ImageUrl" alt="Billede af retten" class="card-img-top" />
                         <div class="card-header">
