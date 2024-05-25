@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
@@ -19,7 +20,7 @@ namespace GC_Subscription.Pages.Mealboxes
 
         public async Task OnGetAsync()
         {
-            // does something
+            // Retrieves Mealbox items and their associated products, diets, and allergies
             Mealbox = await _context.Mealbox
                                     .Include(m => m.Products)
                                     .ThenInclude(p => p.Diets)

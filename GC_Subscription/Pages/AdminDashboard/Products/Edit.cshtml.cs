@@ -57,8 +57,7 @@ namespace GC_Subscription.Pages.Products
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -107,29 +106,10 @@ namespace GC_Subscription.Pages.Products
                     }
                 }
 
-                // Image proces
-                if (Image != null && Image.Length > 0)
-                {
-                    var folderName = "images";
-                    var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
-                    var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+                // Image processing
+                await ProcessImageAsync(existingProduct);
 
-                    if (!Directory.Exists(uploadDir))
-                    {
-                        Directory.CreateDirectory(uploadDir);
-                    }
 
-                    var filePath = Path.Combine(uploadDir, uniqueFileName);
-
-                    // Save image to server
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await Image.CopyToAsync(stream);
-                    }
-
-                    // Update ImageUrl property
-                    existingProduct.ImageUrl = $"/{folderName}/" + uniqueFileName;
-                }
 
                 try
                 {
@@ -155,10 +135,37 @@ namespace GC_Subscription.Pages.Products
             return RedirectToPage("./Index");
         }
 
-
+        #region Private helper Functions
         private bool ProductExists(int id)
         {
             return _context.Product.Any(e => e.Id == id);
         }
+
+        private async Task ProcessImageAsync(Product existingProduct)
+        {
+            if (Image != null && Image.Length > 0)
+            {
+                var folderName = "images";
+                var uniqueFileName = Guid.NewGuid().ToString() + "_" + Image.FileName;
+                var uploadDir = Path.Combine(_webHostEnvironment.WebRootPath, folderName);
+
+                if (!Directory.Exists(uploadDir))
+                {
+                    Directory.CreateDirectory(uploadDir);
+                }
+
+                var filePath = Path.Combine(uploadDir, uniqueFileName);
+
+                // Save image to server
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await Image.CopyToAsync(stream);
+                }
+
+                // Update ImageUrl property
+                existingProduct.ImageUrl = $"/{folderName}/" + uniqueFileName;
+            }
+        }
+        #endregion
     }
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
-using System.Reflection.Metadata;
 
 
 namespace GC_Subscription.Pages.Mealboxes
@@ -40,7 +39,6 @@ namespace GC_Subscription.Pages.Mealboxes
         }
 
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -48,7 +46,37 @@ namespace GC_Subscription.Pages.Mealboxes
                 return Page();
             }
 
-            // Process image upload
+            // Run image processing
+            await ProcessImageAsync();
+
+            // Insert products into relationtabel
+            var selectedProductIds = Request.Form["SelectedProductIds"];
+
+            // Iterate through the selected product IDs and associate them with the mealbox
+            foreach (var productId in selectedProductIds)
+            {
+                var product = await _context.Product.FindAsync(int.Parse(productId));
+                
+                if (product != null)
+                {
+                    Mealbox.Products.Add(product);
+                }
+            }
+
+            // Save date
+            Mealbox.LastEdited = DateTime.Now;
+
+            // Save Mealbox
+            _context.Mealbox.Add(Mealbox);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
+
+
+        #region Private Helper Functions
+        private async Task ProcessImageAsync()
+        {
             if (Image != null && Image.Length > 0)
             {
                 var folderName = "images";
@@ -72,29 +100,7 @@ namespace GC_Subscription.Pages.Mealboxes
 
                 Mealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
             }
-
-            // Insert products into relationtabel one by one
-            var selectedProductIds = Request.Form["SelectedProductIds"];
-
-            // Iterate through the selected product IDs and associate them with the mealbox
-            foreach (var productId in selectedProductIds)
-            {
-                var product = await _context.Product.FindAsync(int.Parse(productId));
-                
-                if (product != null)
-                {
-                    Mealbox.Products.Add(product);
-                }
-            }
-
-            // Save date
-            Mealbox.LastEdited = DateTime.Now;
-
-            // Save Mealbox
-            _context.Mealbox.Add(Mealbox);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
         }
+        #endregion
     }
 }

@@ -13,7 +13,6 @@ namespace GC_Subscription.Models
         [Required(ErrorMessage = "Angiv venligst en beskrivelse af måltidskassen")]
         public string Description { get; set; }
 
-
         [Required(ErrorMessage = "Angiv venligst et beløb")]
         [Range(1, int.MaxValue, ErrorMessage = "Angiv venligst et beløb")]
         public int Price { get; set; }
