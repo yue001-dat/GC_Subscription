@@ -1,0 +1,3 @@
+﻿@startuml
+	test -> test2
+@enduml
