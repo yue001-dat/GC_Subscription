@@ -2,7 +2,7 @@
 @model GC_Subscription.Pages.Buy.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Køb måltidskasse";
 }
 
 
@@ -204,12 +204,6 @@
 </div>
 <!-- End Content Container -->
 
-
-<!-- Scripts -->
-<script src="js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-
 <script>
 
     $('input[name="preferences[]"]').on('change', function () {
@@ -325,44 +319,3 @@
     }
 
 </script>
-
-
-<style>
-    .spacer-10 {
-        height: 10px !important;
-    }
-
-    .display-6 {
-        font-size: 1.65rem !important;
-    }
-
-    .tooltip-trigger {
-        cursor: pointer;
-        position: relative;
-    }
-
-    .tooltip-box {
-        position: absolute;
-        top: 0;
-        right: -50%;
-        left: 100%;
-        background-color: white;
-        border: 1px solid black;
-        color: black;
-        padding: 0.5rem;
-        border-radius: 4px;
-        display: none;
-        max-width: 300px;
-        z-index: 9999;
-        box-shadow: 0px 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .tooltip-trigger:hover + .tooltip-box {
-        display: block;
-    }
-
-    .modal-content {
-        max-width: 90%;
-        margin: auto;
-    }
-</style>
