@@ -64,12 +64,11 @@ namespace GC_Subscription.Pages.Products
             {
                 return Page();
             }
-
+            
             // Get current product from DB
-            var existingProduct = await _context.Product
-                .Include(p => p.Allergies)
-                .Include(p => p.Diets)
-                .FirstOrDefaultAsync(p => p.Id == Product.Id);
+            var existingProduct = await _context.Product.Include(p => p.Allergies)
+                                                        .Include(p => p.Diets)
+                                                        .FirstOrDefaultAsync(p => p.Id == Product.Id);
 
             if (existingProduct != null)
             {
@@ -169,3 +168,4 @@ namespace GC_Subscription.Pages.Products
         #endregion
     }
 }
+
