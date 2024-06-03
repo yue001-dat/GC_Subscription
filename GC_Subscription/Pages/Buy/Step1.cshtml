@@ -1,0 +1,345 @@
+﻿@page
+@model GC_Subscription.Pages.Buy.Step1Model
+
+@{
+    ViewData["Title"] = "Levering og betaling";
+}
+
+<h2>Leverings- og Betalingoplysninger</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-9">
+        <form method="post" id="payment-form" action="/Buy/Step2">
+
+            <!-- Pass previous form data to next step -->
+            @if (Request.Method == "POST")
+            {
+                @foreach (var item in Model.PostData)
+                {
+                    if (item.Key == "__RequestVerificationToken")
+                    {
+                        continue;
+                    }
+
+                    <input type="hidden" name="@item.Key" value="@item.Value" />
+                }
+            }
+
+            <h5><strong>Dine leveringsoplysninger</strong></h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Customer.Name" class="control-label"></label>
+                <input asp-for="Customer.Name" class="form-control" />
+                <span asp-validation-for="Customer.Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Address1" class="control-label"></label>
+                <input asp-for="Customer.Address1" class="form-control" />
+                <span asp-validation-for="Customer.Address1" class="text-danger"></span>
+            </div>
+
+            <div class="row">
+                <div class="form-group col">
+                    <label asp-for="Customer.Zip" class="control-label"></label>
+                    <input asp-for="Customer.Zip" class="form-control" value="" />
+                    <span asp-validation-for="Customer.Zip" class="text-danger"></span>
+                </div>
+
+                <div class="form-group col">
+                    <label for="City" class="control-label">By</label>
+                    <input type="text" id="City" class="form-control" disabled="disabled" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Email" class="control-label"></label>
+                <input asp-for="Customer.Email" class="form-control" />
+                <span asp-validation-for="Customer.Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Customer.Phone" class="control-label"></label>
+                <input asp-for="Customer.Phone" class="form-control" />
+                <span asp-validation-for="Customer.Phone" class="text-danger"></span>
+            </div>
+            
+            <div class="form-group">
+                <label asp-for="Customer.Comments" class="control-label"></label>
+                <textarea asp-for="Customer.Comments" class="form-control"></textarea>
+                <span asp-validation-for="Customer.Comments" class="text-danger"></span>
+            </div>
+
+            <div class="clearfix">
+                <br />
+            </div>
+       
+            <!-- Stripe Elements -->
+            <div class="form-group card-element-container">
+                <h5><strong>Dine betalingsoplysninger</strong></h5>
+
+                <div class="card">
+                    <div class="card-body">
+
+                        <div id="card-element">
+                            <!-- A Stripe Element will be inserted here. -->
+                        </div>
+
+                        <div id="card-errors" class="text-danger field-validation-error" role="alert"></div>
+
+                    </div>
+                </div>
+            
+                
+
+            </div>
+            <!-- End Stripe Elements -->
+            
+            <div class="cleafix">
+                <br />
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-lg w-100 btn-success">
+                    <strong>
+                        Betal
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8" />
+                        </svg>
+                    </strong>
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="col-md-3 card" style="padding-top: 10px !important;">
+       
+        <h5><strong>Din bestilling</strong></h5>
+
+        <h4>@Model.Mealbox.Name</h4>
+
+        <table>
+            <tbody>
+                <tr>
+                    <td class="w-100"><strong>Personer:</strong></td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("people_options", out var people_options))
+                        {
+                            @people_options
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Leveringsfrekvens:</strong></td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("interval_option", out var interval_option))
+                        {
+                            @interval_option
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Kostvaner:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("SelectedDietIds", out var SelectedDietIds))
+                        {
+                            @SelectedDietIds
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allergier:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("SelectedAllergyIds", out var SelectedAllergyIds))
+                        {
+                            @SelectedAllergyIds
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">Retter</td>
+                </tr>
+                <tr>
+                    <td>Dag 1:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("product_day_1", out var product_day_1))
+                        {
+                            @product_day_1
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dag 2:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("product_day_2", out var product_day_2))
+                        {
+                            @product_day_2
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dag 3:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("product_day_3", out var product_day_3))
+                        {
+                            @product_day_3
+                        } 
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>Dag 4:</td>
+                    <td>
+                        @if (Model.PostData.TryGetValue("product_day_4", out var product_day_4))
+                        {
+                            @product_day_4
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><hr /></td>
+                </tr>
+                <tr style="font-weight: bold !important;">
+                    <td>Til betaling i alt:</td>
+                    <td width="100px">
+                        @Model.Mealbox.getPrice(2) DKK
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+
+        @if (Request.Method == "POST")
+        {
+
+            <h2>Posted Data:</h2>
+            <ul>
+                @foreach (var item in Model.PostData)
+                {
+                    <li><strong>@item.Key:</strong> @item.Value</li>
+                }
+            </ul>
+        }
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+    <script>
+
+        $("#Customer_Zip").on('change', function () {
+
+
+            var zip = $("#Customer_Zip").val();
+
+                $.ajax({
+                url: '/Checkout/GetCityByZip',
+                    type: 'GET',
+                contentType: 'application/json',
+                data: { zipCode: zip },
+                success: function (data) {
+                        $('#City').val(data);
+                    },
+
+                    error: function () {
+                    $('#City').val('City not found.');
+                    }
+
+                });
+   
+
+        });
+
+
+
+    </script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <script>
+        var stripe = Stripe('@Model.PublicKey');
+        var appearance = {
+            theme: 'night',
+            variables: {
+                colorPrimary: '#0570de',
+                colorBackground: '#f6f9fc',
+                colorText: '#30313d',
+                colorDanger: '#df1b41',
+            },
+            rules: {
+                '.Label': {
+                    color: '#8898aa',
+                },
+            }
+        };
+        var elements = stripe.elements({ locale: 'da'},  { appearance });
+        var card = elements.create('card', {
+            hidePostalCode: true,
+            style: {
+                base: {
+                    iconColor: '#666EE8',
+                    color: '#31325F',
+                    lineHeight: '40px',
+                    fontWeight: 300,
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSize: '15px',
+
+                    '::placeholder': {
+                        color: '#CFD7E0',
+                    },
+                },
+            }
+        });
+        card.mount('#card-element');
+
+        card.on('change', function (event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: card,
+            });
+
+            if (error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+
+                fetch('/Payment/ProcessPayment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ paymentMethodId: paymentMethod.id, amount: 5000 }), 
+
+                }).then(response => response.json()).then(result => {
+                    if (result.error) {
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error;
+                    } else {
+                        // Payment succeeded
+                        alert('Payment successful!');
+                    }
+                });
+            }
+        });
+    </script>
+
+}

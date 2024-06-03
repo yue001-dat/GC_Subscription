@@ -26,5 +26,29 @@ namespace GC_Subscription.Models
         // Relational Fields
         public ICollection<Product> Products { get; set; } = [];
         public ICollection<Subscription> Subscriptions { get; set; } = [];
+
+        /**
+         * Calculate Pricing for people > 1 using the "Price" as BasePrice and add some discounts
+         **/
+        public int getPrice(int peopleOptions)
+        {
+            if (peopleOptions <= 1)
+            {
+                return Price;
+            }
+
+            int BasePrice = Price;
+            double totalPrice = 0;
+            double discountRate = 0.05;
+
+            for (int i = 1; i <= peopleOptions; i++)
+            {
+                double currentPrice = BasePrice * (1 - discountRate);
+                totalPrice += currentPrice;
+                discountRate = Math.Max(0, discountRate - 0.02);
+            }
+
+            return (int)Math.Round(totalPrice);
+        }
     }
 }

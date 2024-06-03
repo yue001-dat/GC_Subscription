@@ -4,6 +4,7 @@ using GC_Subscription.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GC_Subscription.Migrations
 {
     [DbContext(typeof(GhostchefContext))]
-    partial class GhostchefContextModelSnapshot : ModelSnapshot
+    [Migration("20240528230803_AddCustomerZipCityRelation")]
+    partial class AddCustomerZipCityRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

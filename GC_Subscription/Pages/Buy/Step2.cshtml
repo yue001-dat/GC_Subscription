@@ -1,0 +1,24 @@
+﻿@page
+@model GC_Subscription.Pages.Buy.Step2Model
+
+@{
+    ViewData["Title"] = "Step2";
+}
+
+<h2>Ordrebekræftelse</h2>
+<hr />
+<div class="row">
+    <div class="col-12">
+        <p>
+            Vi har modtaget din ordre.
+        </p>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Index">Tilbage til forsiden</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

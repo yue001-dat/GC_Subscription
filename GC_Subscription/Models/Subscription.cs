@@ -14,11 +14,26 @@ namespace GC_Subscription.Models
         [Required]
         public int Interval { get; set; }
 
-        public enum IntervalType{
+        public enum DefaultIntervalType {
             [Display(Name = "Every X Day")] Day,
             [Display(Name = "Every X Week")] Week,            
             [Display(Name = "Every X Month")] Month,
             [Display(Name = "Every X Year")] Year
+        }
+
+        public enum AlternativeIntervalType
+        {
+            [Display(Name = "Uge til uge")] 
+            weekly,
+
+            [Display(Name = "Hver anden uge")] 
+            bi_weekly,
+
+            [Display(Name = "Hver tredje uge")] 
+            tri_weekly,
+
+            [Display(Name = "Månedligt")] 
+            monthly,
         }
 
         [Required]

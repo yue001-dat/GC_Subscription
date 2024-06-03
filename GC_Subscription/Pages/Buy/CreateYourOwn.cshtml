@@ -1,5 +1,5 @@
 ﻿@page
-@model GC_Subscription.Pages.Buy.IndexModel
+@model GC_Subscription.Pages.Buy.CreateYourOwn
 
 @{
     ViewData["Title"] = "Køb måltidskasse";
@@ -8,10 +8,13 @@
 
 <!-- Content Container -->
 <div class="container">
+
+    <form method="post" id="buyForm" asp-page="/Buy/Step1">
+
     <div class="row">
         <div class="col">
             <div class="spacer-10"></div>
-            <img src="https://ghostchef.dk/wp-content/uploads/2023/11/DSC_0016-scaled.jpg" alt="" class="img-fluid product-image">
+                <img src="https://ghostchef.dk/wp-content/uploads/2023/11/DSC_0016-scaled.jpg" alt="" class="img-fluid product-image">
         </div>
         <div class="col">
 
@@ -34,15 +37,15 @@
 
             <div class="row align-items-center gap-0">
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option1" autocomplete="off" checked>
+                    <input type="radio" class="btn-check" name="people_options" value="1" id="people_option1" autocomplete="off" checked>
                     <label class="btn btn-outline-success d-block w-100" for="people_option1">1 person</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option2" autocomplete="off">
+                        <input type="radio" class="btn-check" name="people_options" value="2" id="people_option2" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="people_option2">2 personer</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option3" autocomplete="off">
+                        <input type="radio" class="btn-check" name="people_options" value="3" id="people_option3" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="people_option3">3 personer</label>
                 </div>
             </div>
@@ -53,15 +56,15 @@
 
             <div class="row align-items-center">
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option4" autocomplete="off">
+                        <input type="radio" class="btn-check" name="people_options" value="4" id="people_option4" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="people_option4">4 personer</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option5" autocomplete="off">
+                        <input type="radio" class="btn-check" name="people_options" value="5" id="people_option5" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="people_option5">5 personer</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="people_options" id="people_option6" autocomplete="off">
+                        <input type="radio" class="btn-check" name="people_options" value="5" id="people_option6" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="people_option6">6 personer</label>
                 </div>
             </div>
@@ -77,11 +80,11 @@
 
             <div class="row align-items-center gap-0">
                 <div class="col">
-                    <input type="radio" class="btn-check" name="interval_option" id="interval_option1" autocomplete="off">
+                        <input type="radio" class="btn-check" name="interval_option" value="weekly" id="interval_option1" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="interval_option1">Uge til uge</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="interval_option" id="interval_option2" autocomplete="off">
+                        <input type="radio" class="btn-check" name="interval_option" value="bi_weekly" id="interval_option2" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="interval_option2">Hver anden uge</label>
                 </div>
             </div>
@@ -92,11 +95,11 @@
 
             <div class="row align-items-center gap-0">
                 <div class="col">
-                    <input type="radio" class="btn-check" name="interval_option" id="interval_option3" autocomplete="off">
+                        <input type="radio" class="btn-check" name="interval_option" value="tri_weekly" id="interval_option3" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="interval_option3">Hver tredje uge</label>
                 </div>
                 <div class="col">
-                    <input type="radio" class="btn-check" name="interval_option" id="interval_option4" autocomplete="off">
+                        <input type="radio" class="btn-check" name="interval_option" value="monthly" id="interval_option4" autocomplete="off">
                     <label class="btn btn-outline-success d-block w-100" for="interval_option4">Månedligt</label>
                 </div>
             </div>
@@ -151,7 +154,7 @@
                 {
                     <div class="input-group">
                         <span class="input-group-text">Dag @day</span>
-                        <select class="form-select" aria-label="Vælg eller fravælg retter" id="product_day_@day" onchange="updateTooltip(@day)">
+                            <select class="form-select" aria-label="Vælg eller fravælg retter" id="product_day_@day" name="product_day_@day" onchange="updateTooltip(@day)">
                             <option value="" data-name="Ingen ret valgt" data-description="Vælg en ret for at se beskrivelsen her.">Fravælg</option>
                             <optgroup label="Retter">
                                 @foreach (var product in Model.AvailableProducts)
@@ -191,7 +194,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Luk</button>
-                            <button type="button" class="btn btn-primary">Bekræft og betal</button>
+                            <button type="button" class="btn btn-primary" id="nextStep">Bekræft og betal</button>
                         </div>
                     </div>
                 </div>
@@ -201,121 +204,135 @@
 
         </div>
     </div>
+
+    </form>
 </div>
 <!-- End Content Container -->
 
-<script>
 
-    $('input[name="preferences[]"]').on('change', function () {
+@section Scripts {
 
-        $('label.defaultAllergySelection').removeClass('active');
+    <script>
 
-        var len = $('input[name="preferences[]"]:checked').length;
+        $('input[name="preferences[]"]').on('change', function () {
 
-        if(len <= 0)  {
+            $('label.defaultAllergySelection').removeClass('active');
+
+            var len = $('input[name="preferences[]"]:checked').length;
+
+            if (len <= 0) {
+                $('label.defaultAllergySelection').addClass('active');
+            }
+        });
+
+        $('input.defaultAllergySelection').on('change', function () {
+
+            if ($('input.defaultAllergySelection').is(':checked')) {
+                $('input[name="preferences[]"]').prop('checked', false);
+            }
+
             $('label.defaultAllergySelection').addClass('active');
-        }
-    });
-
-    $('input.defaultAllergySelection').on('change', function () {
-
-        if($('input.defaultAllergySelection').is(':checked')) {
-            $('input[name="preferences[]"]').prop('checked', false);
-        }
-
-        $('label.defaultAllergySelection').addClass('active');  
-    });
-
-</script>
-
-
-<!-- JavaScript function to update whats in the select container -->
-<script>
-    function updateTooltip(day) {
-                        
-        var selectElement = document.getElementById('product_day_' + day);
-        var selectedOption = selectElement.options[selectElement.selectedIndex];
-
-                        
-        var tooltipElement = document.getElementById('tooltip_day_' + day);
-
-                        
-        var name = selectedOption.getAttribute('data-name');
-        var description = selectedOption.getAttribute('data-description');
-                   
-        tooltipElement.innerHTML = `
-                <p class="my-tooltip">
-                    <strong>${name}</strong>
-                </p>
-
-                <p>
-                    <strong>Energi:</strong> 187 kcal
-                        <br/>
-                    <strong>Protein:</strong> 1.9 gram
-                    <br/>
-                    <strong>Fedt:</strong> 15.7 gram
-                    <br/>
-                    <strong>Kulhydrater:</strong> 11.7 gram
-                </p>
-                 `;
-
-        document.addEventListener('DOMContentLoaded', function () {
-            for (var day = 1; day <= 4; day++) {
-                updateTooltip(day);
-            }
         });
-    }
 
-    function showOverview() {
-        let overviewContent = '';
+        /*
+        $("#nextStep").on('click', function () {
 
-        // Get selected people option
-        const peopleOptions = document.querySelectorAll('input[name="people_options"]');
-        let selectedPeople;
-        peopleOptions.forEach(option => {
-            if (option.checked) {
-                selectedPeople = option.nextElementSibling.innerText;
-            }
+            $("#buyForm").submit();
+
         });
-        overviewContent += `<p><strong>Antal personer:</strong> ${selectedPeople}</p>`;
+        */
 
-        // Get selected interval option
-        const intervalOptions = document.querySelectorAll('input[name="interval_option"]');
-        let selectedInterval;
-        intervalOptions.forEach(option => {
-            if (option.checked) {
-                selectedInterval = option.nextElementSibling.innerText;
-            }
-        });
-        overviewContent += `<p><strong>Leveringsfrekvens:</strong> ${selectedInterval}</p>`;
+    </script>
 
-        // Get selected diets
-        const selectedDiets = [];
-        document.querySelectorAll('input[name="SelectedDietIds"]:checked').forEach(diet => {
-            selectedDiets.push(diet.nextElementSibling.innerText);
-        });
-        overviewContent += `<p><strong>Kostvaner:</strong> ${selectedDiets.join(', ')}</p>`;
 
-        // Get selected allergies
-        const selectedAllergies = [];
-        document.querySelectorAll('input[name="SelectedAllergyIds"]:checked').forEach(allergy => {
-            selectedAllergies.push(allergy.nextElementSibling.innerText);
-        });
-        overviewContent += `<p><strong>Allergier:</strong> ${selectedAllergies.join(', ')}</p>`;
+    <!-- JavaScript function to update whats in the select container -->
+    <script>
+        function updateTooltip(day) {
 
-        // Get selected dishes
-        for (let day = 1; day <= 4; day++) {
-            const selectElement = document.getElementById('product_day_' + day);
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const dishName = selectedOption.getAttribute('data-name');
-            overviewContent += `<p><strong>Dag ${day}:</strong> ${dishName}</p>`;
+            var selectElement = document.getElementById('product_day_' + day);
+            var selectedOption = selectElement.options[selectElement.selectedIndex];
+
+
+            var tooltipElement = document.getElementById('tooltip_day_' + day);
+
+
+            var name = selectedOption.getAttribute('data-name');
+            var description = selectedOption.getAttribute('data-description');
+
+            tooltipElement.innerHTML = `
+                        <p class="my-tooltip">
+                            <strong>${name}</strong>
+                        </p>
+
+                        <p>
+                            <strong>Energi:</strong> 187 kcal
+                                <br/>
+                            <strong>Protein:</strong> 1.9 gram
+                            <br/>
+                            <strong>Fedt:</strong> 15.7 gram
+                            <br/>
+                            <strong>Kulhydrater:</strong> 11.7 gram
+                        </p>
+                         `;
+
+            document.addEventListener('DOMContentLoaded', function () {
+                for (var day = 1; day <= 4; day++) {
+                    updateTooltip(day);
+                }
+            });
         }
 
-        // Update the modal content
-        document.getElementById('overviewContent').innerHTML = overviewContent;
+        function showOverview() {
+            let overviewContent = '';
 
-        // Show the modal
-        new bootstrap.Modal(document.getElementById('overviewModal')).show();
-    }
+            // Get selected people option
+            const peopleOptions = document.querySelectorAll('input[name="people_options"]');
+            let selectedPeople;
+            peopleOptions.forEach(option => {
+                if (option.checked) {
+                    selectedPeople = option.nextElementSibling.innerText;
+                }
+            });
+            overviewContent += `<p><strong>Antal personer:</strong> ${selectedPeople}</p>`;
 
-</script>
+            // Get selected interval option
+            const intervalOptions = document.querySelectorAll('input[name="interval_option"]');
+            let selectedInterval;
+            intervalOptions.forEach(option => {
+                if (option.checked) {
+                    selectedInterval = option.nextElementSibling.innerText;
+                }
+            });
+            overviewContent += `<p><strong>Leveringsfrekvens:</strong> ${selectedInterval}</p>`;
+
+            // Get selected diets
+            const selectedDiets = [];
+            document.querySelectorAll('input[name="SelectedDietIds"]:checked').forEach(diet => {
+                selectedDiets.push(diet.nextElementSibling.innerText);
+            });
+            overviewContent += `<p><strong>Kostvaner:</strong> ${selectedDiets.join(', ')}</p>`;
+
+            // Get selected allergies
+            const selectedAllergies = [];
+            document.querySelectorAll('input[name="SelectedAllergyIds"]:checked').forEach(allergy => {
+                selectedAllergies.push(allergy.nextElementSibling.innerText);
+            });
+            overviewContent += `<p><strong>Allergier:</strong> ${selectedAllergies.join(', ')}</p>`;
+
+            // Get selected dishes
+            for (let day = 1; day <= 4; day++) {
+                const selectElement = document.getElementById('product_day_' + day);
+                const selectedOption = selectElement.options[selectElement.selectedIndex];
+                const dishName = selectedOption.getAttribute('data-name');
+                overviewContent += `<p><strong>Dag ${day}:</strong> ${dishName}</p>`;
+            }
+
+            // Update the modal content
+            document.getElementById('overviewContent').innerHTML = overviewContent;
+
+            // Show the modal
+            new bootstrap.Modal(document.getElementById('overviewModal')).show();
+        }
+
+    </script>
+}

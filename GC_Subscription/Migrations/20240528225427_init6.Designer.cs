@@ -4,6 +4,7 @@ using GC_Subscription.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GC_Subscription.Migrations
 {
     [DbContext(typeof(GhostchefContext))]
-    partial class GhostchefContextModelSnapshot : ModelSnapshot
+    [Migration("20240528225427_init6")]
+    partial class init6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,6 +105,10 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("SignupCompleted")
                         .HasColumnType("bit");
 
@@ -109,13 +116,7 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Zip")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("Zip")
-                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -241,26 +242,6 @@ namespace GC_Subscription.Migrations
                     b.ToTable("Subscription");
                 });
 
-            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Zip")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ZipCity");
-                });
-
             modelBuilder.Entity("MealboxProduct", b =>
                 {
                     b.Property<int>("MealboxesId")
@@ -306,18 +287,6 @@ namespace GC_Subscription.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GC_Subscription.Models.Customer", b =>
-                {
-                    b.HasOne("GC_Subscription.Models.ZipCity", "City")
-                        .WithOne("Customer")
-                        .HasForeignKey("GC_Subscription.Models.Customer", "Zip")
-                        .HasPrincipalKey("GC_Subscription.Models.ZipCity", "Zip")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("GC_Subscription.Models.Subscription", b =>
                 {
                     b.HasOne("GC_Subscription.Models.Customer", "Customer")
@@ -351,12 +320,6 @@ namespace GC_Subscription.Migrations
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
                 {
                     b.Navigation("Subscriptions");
-                });
-
-            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
-                {
-                    b.Navigation("Customer")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
