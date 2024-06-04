@@ -8,6 +8,6 @@
 
         public string City { get; set; }
 
-        public Customer Customer { get; set; }
+        //public Customer Customer { get; set; }
     }
 }

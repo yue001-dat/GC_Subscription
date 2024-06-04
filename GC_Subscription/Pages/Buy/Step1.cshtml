@@ -1,6 +1,5 @@
 ﻿@page
 @model GC_Subscription.Pages.Buy.Step1Model
-
 @{
     ViewData["Title"] = "Levering og betaling";
 }
@@ -10,8 +9,8 @@
 <hr />
 <div class="row">
     <div class="col-md-9">
-        <form method="post" id="payment-form" action="/Buy/Step2">
-
+        <form method="post" id="payment-form" action="/Buy/Step2" asp-antiforgery="true">
+        
             <!-- Pass previous form data to next step -->
             @if (Request.Method == "POST")
             {
@@ -143,18 +142,24 @@
                 <tr>
                     <td>Kostvaner:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("SelectedDietIds", out var SelectedDietIds))
+                        @if (Model.DietList != null && Model.DietList.Any())
                         {
-                            @SelectedDietIds
+                            @foreach (var diet in Model.DietList)
+                            {
+                                @diet.Name
+                            }
                         }
                     </td>
                 </tr>
                 <tr>
                     <td>Allergier:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("SelectedAllergyIds", out var SelectedAllergyIds))
+                        @if (Model.AllergyList != null && Model.AllergyList.Any())
                         {
-                            @SelectedAllergyIds
+                            @foreach (var allergy in Model.AllergyList)
+                            {
+                                @allergy.Name
+                            }
                         }
                     </td>
                 </tr>
@@ -164,38 +169,25 @@
                 <tr>
                     <td>Dag 1:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("product_day_1", out var product_day_1))
-                        {
-                            @product_day_1
-                        }
+                        @Model.ProductDay1.Name
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 2:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("product_day_2", out var product_day_2))
-                        {
-                            @product_day_2
-                        }
+                        @Model.ProductDay2.Name
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 3:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("product_day_3", out var product_day_3))
-                        {
-                            @product_day_3
-                        } 
-
+                        @Model.ProductDay3.Name
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 4:</td>
                     <td>
-                        @if (Model.PostData.TryGetValue("product_day_4", out var product_day_4))
-                        {
-                            @product_day_4
-                        }
+                        @Model.ProductDay4.Name
                     </td>
                 </tr>
                 <tr>
@@ -322,6 +314,24 @@
                 errorElement.textContent = error.message;
             } else {
 
+                // Alt ok
+                // Find formen ved hjælp af id
+                var form = document.getElementById('payment-form');
+
+                // Opret et nyt input-felt
+                var newInput = document.createElement('input');
+                newInput.type = 'hidden';
+                newInput.name = 'payment_method_id';
+                newInput.value = paymentMethod.id;
+
+                
+                // Tilføj det nye input-felt til formen
+                form.appendChild(newInput);
+
+                document.getElementById("payment-form").submit();
+
+
+                /*
                 fetch('/Payment/ProcessPayment', {
                     method: 'POST',
                     headers: {
@@ -334,10 +344,16 @@
                         var errorElement = document.getElementById('card-errors');
                         errorElement.textContent = result.error;
                     } else {
+
                         // Payment succeeded
                         alert('Payment successful!');
+
+                        document.getElementById("payment-form").submit();
+
+
                     }
                 });
+                */
             }
         });
     </script>

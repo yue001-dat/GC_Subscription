@@ -12,7 +12,7 @@ namespace GC_Subscription.Models
         public Customer Customer { get; set; }
 
         [Required]
-        public int Interval { get; set; }
+        public string Interval { get; set; }
 
         public enum DefaultIntervalType {
             [Display(Name = "Every X Day")] Day,
@@ -43,12 +43,26 @@ namespace GC_Subscription.Models
         [DataType(DataType.DateTime)]
         public DateTime EndDate { get; set; }
 
+        public string StripeId { get; set; }
+
+
+        public Subscription() { }
+
+        public Subscription(int customer_id, string interval_option, string stripe_id, int? MealboxId)
+        {
+            CustomerId = customer_id;
+            Interval = interval_option;
+            StripeId = stripe_id;
+            StartDate = DateTime.Now;
+        }
+
         /*
         ICollection<SubscriptionProduct> SubscriptionProducts { get; set; }       
         ICollection<SubscriptionDiet> SubscriptionDiets { get; set; }
-        ICollection<SubscriptionAllergy> SubscriptionAllergies { get; set; }        
-        ICollection<Invoice> Invoices { get; set; }
+        ICollection<SubscriptionAllergy> SubscriptionAllergies { get; set; }             
+        public ICollection<Invoice> Invoices { get; set; }
         */
+        
     }
 }
     

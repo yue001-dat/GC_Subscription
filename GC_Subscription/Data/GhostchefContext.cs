@@ -19,17 +19,23 @@ namespace GC_Subscription.Data
         public DbSet<GC_Subscription.Models.Customer> Customer { get; set; } = default!;
         public DbSet<ZipCity> ZipCity { get; set; } = default!;
 
-     
+        public DbSet<GC_Subscription.Models.Invoice> Invoice { get; set; } = default!;
+
+        /*
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+     
             modelBuilder.Entity<Customer>()
                 .HasOne(c => c.City)
                 .WithOne(z => z.Customer)
                 .HasForeignKey<Customer>(c => c.Zip)
                 .HasPrincipalKey<ZipCity>(z => z.Zip);
+     
+
         }
-       
+        */
+
     }
 }

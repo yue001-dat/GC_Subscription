@@ -61,8 +61,8 @@ namespace GC_Subscription.Pages.Buy
                                      .Distinct()
                                      .ToList();
 
-            Subscription = await _context.Subscription
-                .Include(s => s.Customer).ToListAsync();
+            //Subscription = await _context.Subscription
+             //   .Include(s => s.Customer).ToListAsync();
 
             //AvailableProducts = await _context.Product.ToListAsync(); // Det her er alle som er til rådighed
             //AvailableAllergies = await _context.Allergy.ToListAsync();  // Det her er alle som er til rådighed

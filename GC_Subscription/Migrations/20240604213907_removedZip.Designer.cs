@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GC_Subscription.Migrations
 {
     [DbContext(typeof(GhostchefContext))]
-    [Migration("20240528201215_init2")]
-    partial class init2
+    [Migration("20240604213907_removedZip")]
+    partial class removedZip
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,9 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Comments")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -108,6 +111,9 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Customer");
@@ -128,6 +134,41 @@ namespace GC_Subscription.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diet");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
@@ -225,6 +266,10 @@ namespace GC_Subscription.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("StripeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -232,6 +277,26 @@ namespace GC_Subscription.Migrations
                     b.HasIndex("MealboxId");
 
                     b.ToTable("Subscription");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ZipCity");
                 });
 
             modelBuilder.Entity("MealboxProduct", b =>

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using GC_Subscription.Data;
 using GC_Subscription.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace GC_Subscription.Pages.Buy
 {
@@ -16,6 +17,15 @@ namespace GC_Subscription.Pages.Buy
         private readonly GC_Subscription.Data.GhostchefContext _context;
 
         public Dictionary<string, string> PostData { get; private set; }
+
+        [BindProperty]
+        public List<int> SelectedDietIds { get; set; } = new List<int>();
+        public IList<Diet> DietList { get; set; } = new List<Diet>();
+        
+        [BindProperty]
+        public List<int> SelectedAllergyIds { get; set; } = new List<int>();
+        public IList<Allergy> AllergyList { get; set; } = new List<Allergy>();
+
 
         private readonly StripeSettings _stripeSettings;
 
@@ -27,7 +37,6 @@ namespace GC_Subscription.Pages.Buy
             _stripeSettings = stripeSettings;
         }
 
-
         public IActionResult OnGet()
         {
             return Page();
@@ -37,15 +46,22 @@ namespace GC_Subscription.Pages.Buy
 
         [BindProperty]
         public Customer Customer { get; set; } = default!;
-
         public Mealbox Mealbox { get; set; } = default!;
-         
+  
         public int MealBoxId { get; set; }
 
+        // Product Selections
+        public Product ProductDay1 { get; set; } = default!; 
+        public Product ProductDay2 { get; set; } = default!; 
+        public Product ProductDay3 { get; set; } = default!; 
+        public Product ProductDay4 { get; set; } = default!; 
+
+      
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-
+            // Used to display post data on site while developing
+            // remove in production
             PostData = new Dictionary<string, string>();
 
             foreach (var key in Request.Form.Keys)
@@ -71,21 +87,56 @@ namespace GC_Subscription.Pages.Buy
                 return NotFound();
             }
 
+            // MealBox
             Mealbox = mealbox;
 
-            return Page();
+            // Product Selection
+            var productDay1 = await GetProductFromFormInputAsync("product_day_1");
+            ProductDay1 = productDay1;
+            
+            var productDay2 = await GetProductFromFormInputAsync("product_day_2");
+            ProductDay2 = productDay2;
 
-            /*
-            if (!ModelState.IsValid)
+            var productDay3 = await GetProductFromFormInputAsync("product_day_3");
+            ProductDay3 = productDay3;
+            
+            var productDay4 = await GetProductFromFormInputAsync("product_day_4");
+            ProductDay4 = productDay4;
+
+            if (SelectedDietIds != null && SelectedDietIds.Count > 0)
             {
-                return Page();
+                DietList = await _context.Diet
+                                         .Where(d => SelectedDietIds.Contains(d.Id))
+                                         .ToListAsync();
             }
 
-            _context.Customer.Add(Customer);
-            await _context.SaveChangesAsync();
+            if (SelectedAllergyIds != null && SelectedAllergyIds.Count > 0)
+            {
+                AllergyList = await _context.Allergy
+                                         .Where(d => SelectedAllergyIds.Contains(d.Id))
+                                         .ToListAsync();
+            }
 
-            return RedirectToPage("./Index");
-            */
+            return Page();
         }
+
+
+        public async Task<Product> GetProductFromFormInputAsync(string formInputKey)
+        {
+            // Hent produkt-ID'et fra formularens input-felt ved hjælp af formInputKey
+            var productId = Request.Form[formInputKey];
+
+            // Konverter produkt-ID'et til en integer, hvis nødvendigt
+            if (int.TryParse(productId, out int productDayId))
+            {
+                var product = await _context.Product.FirstOrDefaultAsync(p => p.Id == productDayId);         
+                return product;
+            }
+
+            return null;
+        }
+
+
     }
+        
 }

@@ -82,7 +82,6 @@ namespace GC_Subscription.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Comments")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -114,9 +113,6 @@ namespace GC_Subscription.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Zip")
-                        .IsUnique();
-
                     b.ToTable("Customer");
                 });
 
@@ -135,6 +131,41 @@ namespace GC_Subscription.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diet");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
@@ -223,14 +254,19 @@ namespace GC_Subscription.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Interval")
-                        .HasColumnType("int");
+                    b.Property<string>("Interval")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("MealboxId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("StripeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -306,18 +342,6 @@ namespace GC_Subscription.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("GC_Subscription.Models.Customer", b =>
-                {
-                    b.HasOne("GC_Subscription.Models.ZipCity", "City")
-                        .WithOne("Customer")
-                        .HasForeignKey("GC_Subscription.Models.Customer", "Zip")
-                        .HasPrincipalKey("GC_Subscription.Models.ZipCity", "Zip")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("City");
-                });
-
             modelBuilder.Entity("GC_Subscription.Models.Subscription", b =>
                 {
                     b.HasOne("GC_Subscription.Models.Customer", "Customer")
@@ -351,12 +375,6 @@ namespace GC_Subscription.Migrations
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
                 {
                     b.Navigation("Subscriptions");
-                });
-
-            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
-                {
-                    b.Navigation("Customer")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

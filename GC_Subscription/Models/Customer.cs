@@ -12,8 +12,7 @@ namespace GC_Subscription.Models
         [Display(Name = "Dit fulde navn")]
         [StringLength(64)]
         public string Name          { get; set; }
-
-       
+          
         [Required]
         [Display(Name = "Adresse")]
         public string Address1      { get; set; }
@@ -21,8 +20,8 @@ namespace GC_Subscription.Models
         [Required]
         [Display(Name = "Postnummer")]
         public int Zip { get; set; }
-        public ZipCity City { get; set; }
 
+        //public ZipCity City { get; set; }
 
         [Required, EmailAddress]
         [Display(Name = "Din E-mail")]
@@ -33,16 +32,33 @@ namespace GC_Subscription.Models
         [Display(Name = "Telefon/Mobil")]
         public string? Phone { get; set; }
 
-
         [Display(Name = "Bemærkninger")]
-        public string Comments { get; set; }
-
+        public string? Comments { get; set; }
 
         // This if for later
         public DateTime CreatedAt { get; set; }
         public bool SignupCompleted { get; set; } = false;
         public string StripeId { get; set; }
-              
-        ICollection<Subscription> Subscriptions { get; set; }
+
+        public Customer() {}
+        
+        public Customer(string name, string address1, int zip, string email, string phone, string comment, string stripe_id)
+        {
+            Name = name;
+            Address1 = address1;
+            Zip = zip;  
+            Email = email;
+            Phone = phone;
+            Comments    = comment;
+            StripeId = stripe_id;
+
+            CreatedAt = DateTime.Now;
+            SignupCompleted = false;
+        }
+
+
+
+
+    
     }
 }

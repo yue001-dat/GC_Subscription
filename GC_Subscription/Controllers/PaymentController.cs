@@ -14,7 +14,7 @@ namespace GC_Subscription.Controllers
                 return BadRequest("Invalid payment request.");
             }
 
-            // Logik her hvor man snkker med Stripe og bla bla 
+
 
             
             // Returner en succes eller fejl svar
@@ -27,19 +27,5 @@ namespace GC_Subscription.Controllers
             public string PaymentMethodId { get; set; }
             public int Amount { get; set; }
         }
-
-        /*
-
-        public string Index()
-        {
-            return "This is my default action...";
-        }
-
-
-        public string Welcome()
-        {
-            return "This is the Welcome action method...";
-        }
-        */
     }
 }

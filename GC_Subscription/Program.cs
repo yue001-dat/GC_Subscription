@@ -34,5 +34,11 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
 app.MapRazorPages();
-app.MapControllers(); // Added 
+
+//app.MapControllers(); // Added 
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.Run();

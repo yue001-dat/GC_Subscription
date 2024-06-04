@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GC_Subscription.Migrations
 {
     [DbContext(typeof(GhostchefContext))]
-    [Migration("20240516195300_UpdatedMealboxProperties")]
-    partial class UpdatedMealboxProperties
+    [Migration("20240604203308_ChangesToInvoiesTable")]
+    partial class ChangesToInvoiesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,6 +84,13 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Comments")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(128)
@@ -98,7 +105,20 @@ namespace GC_Subscription.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("SignupCompleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StripeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("Zip")
+                        .IsUnique();
 
                     b.ToTable("Customer");
                 });
@@ -118,6 +138,41 @@ namespace GC_Subscription.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Diet");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.Invoice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("Amount")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CusId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InvId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SubId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invoice");
                 });
 
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
@@ -140,6 +195,9 @@ namespace GC_Subscription.Migrations
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("LastEdited")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -173,6 +231,9 @@ namespace GC_Subscription.Migrations
 
                     b.Property<bool>("InStock")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastEdited")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -209,6 +270,10 @@ namespace GC_Subscription.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("StripeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
@@ -216,6 +281,26 @@ namespace GC_Subscription.Migrations
                     b.HasIndex("MealboxId");
 
                     b.ToTable("Subscription");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Zip")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ZipCity");
                 });
 
             modelBuilder.Entity("MealboxProduct", b =>
@@ -263,6 +348,18 @@ namespace GC_Subscription.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GC_Subscription.Models.Customer", b =>
+                {
+                    b.HasOne("GC_Subscription.Models.ZipCity", "City")
+                        .WithOne("Customer")
+                        .HasForeignKey("GC_Subscription.Models.Customer", "Zip")
+                        .HasPrincipalKey("GC_Subscription.Models.ZipCity", "Zip")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
             modelBuilder.Entity("GC_Subscription.Models.Subscription", b =>
                 {
                     b.HasOne("GC_Subscription.Models.Customer", "Customer")
@@ -296,6 +393,12 @@ namespace GC_Subscription.Migrations
             modelBuilder.Entity("GC_Subscription.Models.Mealbox", b =>
                 {
                     b.Navigation("Subscriptions");
+                });
+
+            modelBuilder.Entity("GC_Subscription.Models.ZipCity", b =>
+                {
+                    b.Navigation("Customer")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
