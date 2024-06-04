@@ -129,7 +129,57 @@
                     </div>
                     <span asp-validation-for="Image" class="text-danger"></span>
                 </div>
-                
+
+
+                <!-- InStock field -->
+                <div class="form-group row align-items-center mb-2">
+                    <div class="col-2">
+                        <label class="col-form-label">På lager</label>
+                    </div>
+                    <div class="col-6">
+                        <div class="btn-toggle-wrapper">
+                            <input asp-for="Product.InStock" type="checkbox" class="btn-toggle" id="Product_InStock" />
+                            <label for="Product_InStock" class="btn-toggle-label btn"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .btn-toggle {
+                        display: none;
+                    }
+
+                    .btn-toggle-label {
+
+                        transition: background-color 0.3s, color 0.3s;
+                        user-select: none;
+                        border-radius: 5px;
+                        border: 1px solid transparent;
+                    }
+
+                        .btn-toggle-label:before {
+                            content: "Nej";
+                        }
+
+                    .btn-toggle:checked + .btn-toggle-label:before {
+                        content: "Ja";
+                    }
+
+                    .btn-toggle-label {
+                        background-color: #dc3545;
+                        color: white;
+                    }
+
+                    .btn-toggle:checked + .btn-toggle-label {
+                        background-color: #198754;
+                        color: white;
+                    }
+
+                    .btn-toggle-label:hover {
+                        opacity: 0.8;
+                    }
+                </style>
+
 
                 <!-- Submit button -->
                 <div class="row">
