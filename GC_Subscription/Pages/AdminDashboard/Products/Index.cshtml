@@ -48,8 +48,9 @@
 
                             <!-- Card Footer -->
                             <div class="card-footer">
+
+                                <!-- Toggle InStock button on/off -->
                                 <div class="left">
-                                    <!-- Toggle InStock on/off -->
                                     @if (!item.InStock)
                                     {
                                         <div class="instock">
@@ -58,8 +59,8 @@
                                     }
                                 </div>
 
+                                <!-- Icons -->
                                 <div class="right">
-                                    <!-- Icons -->
                                     <div class="icons">
                                         <a asp-page="./Details" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-info-circle"></i></a> <!-- Details/Open icon -->
                                         <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
