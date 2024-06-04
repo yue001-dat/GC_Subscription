@@ -21,7 +21,7 @@ namespace GC_Subscription.Models
         [Required]
         [Display(Name = "Postnummer")]
         public int Zip { get; set; }
-        public ZipCity City { get; set; }
+        //public ZipCity City { get; set; }
 
 
         [Required, EmailAddress]

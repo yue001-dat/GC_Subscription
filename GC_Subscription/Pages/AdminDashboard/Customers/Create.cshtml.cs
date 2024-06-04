@@ -31,6 +31,7 @@ namespace GC_Subscription.Pages.AdminDashboard.Customers
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Customer.City");
             if (!ModelState.IsValid)
             {
                 return Page();

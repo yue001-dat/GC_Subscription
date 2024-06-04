@@ -5,8 +5,57 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Customer_Overview</h1>
+<style>
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 
+  .table th, .table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .table th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: normal;
+    text-align: left;
+  }
+
+  .table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+
+  .table tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  .table td {
+    background-color: white;
+  }
+
+  .table th:first-child, .table td:first-child {
+    border-top-left-radius: 8px;
+  }
+
+  .table th:last-child, .table td:last-child {
+    border-top-right-radius: 8px;
+  }
+
+  .table tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+  }
+
+  .table tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+  }
+</style>
 <p>
     <a asp-page="Create">Create New</a>
 </p>
@@ -40,7 +89,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Customer[0].StripeId)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
