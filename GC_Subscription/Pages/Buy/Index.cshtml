@@ -1,0 +1,86 @@
+﻿@page
+@model GC_Subscription.Pages.Buy.IndexModel
+
+@{
+    ViewData["Title"] = "Måltidskasser";
+}
+
+<div class="container py-5">
+    <div class="row">
+        @foreach (var item in Model.Mealbox)
+        {
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-3">
+
+                <!-- Card Start -->
+                <div class="card meal-box-card meal-box-card-hover">
+
+                    <!-- Image -->
+                    <img src="@item.ImageUrl" alt="Billede af måltidskassen" class="card-img-top" />
+
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <h5>@Html.DisplayFor(modelItem => item.Name)</h5>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+
+                        <!-- Diets and Allergies -->
+                        <div class="btn-container">
+
+                            <!-- Diets -->
+                            @foreach (var diet in item.Products.SelectMany(p => p.Diets)
+                           .Select(a => a.Name)
+                           .Distinct()
+                           .OrderBy(a => a, StringComparer.Create(new System.Globalization.CultureInfo("da-DK"), false)))
+                            {
+                                <button type="button" class="btn btn-primary btn-sm mb-2">@diet <br /></button>
+                            }
+
+                            <!-- Allergies -->
+                            @foreach (var allergy in item.Products.SelectMany(p => p.Allergies)
+                           .Select(a => a.Name)
+                           .Distinct()
+                           .OrderBy(a => a, StringComparer.Create(new System.Globalization.CultureInfo("da-DK"), false)))
+                            {
+
+                                <button type="button" class="btn btn-danger btn-sm mb-2">@allergy <br /></button>
+                            }
+                        </div>
+
+                        <!-- Card Price -->
+                        <p class="card-text card-text-price">kr. @Html.DisplayFor(modelItem => item.Price),-</p>
+                    </div>
+
+                    <!-- Card Footer -->
+                    <div class="card-footer">
+
+                        <!-- Toggle InStock button on/off -->
+                        <div class="left">
+
+                            @if (item.Products.Any(p => !p.InStock))
+                            {
+                                <div class="instock">
+                                    <button type="button" class="btn btn-danger btn-sm">Ret ikke på lager</button>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Icons -->
+                        <div class="right">
+                            <div class="icons">
+                                <a asp-page="./BuyPredefined" asp-route-id="@item.Id" class="btn btn-success btn-lg btn-block">
+                                    <i class="fas fa-credit-card"></i> Køb
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Card End -->
+
+            </div>
+        }
+    </div>
+</div>
