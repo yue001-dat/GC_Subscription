@@ -1,0 +1,131 @@
+﻿@page
+@model GC_Subscription.Pages.AdminDashboard.Customers.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Customer_Overview</h1>
+<style>
+    .table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .table th, .table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: normal;
+            text-align: left;
+        }
+
+        .table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .table td {
+            background-color: white;
+        }
+
+            .table th:first-child, .table td:first-child {
+                border-top-left-radius: 8px;
+            }
+
+            .table th:last-child, .table td:last-child {
+                border-top-right-radius: 8px;
+            }
+
+        .table tr:last-child td:first-child {
+            border-bottom-left-radius: 8px;
+        }
+
+        .table tr:last-child td:last-child {
+            border-bottom-right-radius: 8px;
+        }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Address1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Zip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].SignupCompleted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer[0].StripeId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Customer) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Zip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SignupCompleted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StripeId)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
