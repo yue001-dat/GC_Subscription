@@ -33,7 +33,7 @@ namespace GC_Subscription.Models
         public string? Phone { get; set; }
 
         [Display(Name = "Bemærkninger")]
-        public string? Comments { get; set; }
+        public string? Comments { get; set; } = "Så lad gå da, et 02!";
 
         // This if for later
         public DateTime CreatedAt { get; set; }

@@ -14,9 +14,6 @@ namespace GC_Subscription.Controllers
                 return BadRequest("Invalid payment request.");
             }
 
-
-
-            
             // Returner en succes eller fejl svar
             return Ok(new { success = true });
         }

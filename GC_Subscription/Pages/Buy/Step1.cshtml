@@ -8,7 +8,7 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-8">
         <form method="post" id="payment-form" action="/Buy/Step2" asp-antiforgery="true">
         
             <!-- Pass previous form data to next step -->
@@ -29,20 +29,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Customer.Name" class="control-label"></label>
-                <input asp-for="Customer.Name" class="form-control" />
+                <input asp-for="Customer.Name" class="form-control" value="Per Storgård Laursen" />
                 <span asp-validation-for="Customer.Name" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Customer.Address1" class="control-label"></label>
-                <input asp-for="Customer.Address1" class="form-control" />
+                <input asp-for="Customer.Address1" class="form-control" value="Maglegårdsvej 2" />
                 <span asp-validation-for="Customer.Address1" class="text-danger"></span>
             </div>
 
             <div class="row">
                 <div class="form-group col">
                     <label asp-for="Customer.Zip" class="control-label"></label>
-                    <input asp-for="Customer.Zip" class="form-control" value="" />
+                    <input asp-for="Customer.Zip" class="form-control" value="4000" />
                     <span asp-validation-for="Customer.Zip" class="text-danger"></span>
                 </div>
 
@@ -54,13 +54,13 @@
 
             <div class="form-group">
                 <label asp-for="Customer.Email" class="control-label"></label>
-                <input asp-for="Customer.Email" class="form-control" />
+                <input asp-for="Customer.Email" class="form-control" value="perl@zealand.dk" />
                 <span asp-validation-for="Customer.Email" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Customer.Phone" class="control-label"></label>
-                <input asp-for="Customer.Phone" class="form-control" />
+                <input asp-for="Customer.Phone" class="form-control" value="87 65 43 21"/>
                 <span asp-validation-for="Customer.Phone" class="text-danger"></span>
             </div>
             
@@ -77,6 +77,7 @@
             <!-- Stripe Elements -->
             <div class="form-group card-element-container">
                 <h5><strong>Dine betalingsoplysninger</strong></h5>
+                <span>TEST KORT: 4111 1111 1111 1111 EXP_DATE: 01/55  CVC: 123</span>
 
                 <div class="card">
                     <div class="card-body">
@@ -113,17 +114,24 @@
         </form>
     </div>
 
-    <div class="col-md-3 card" style="padding-top: 10px !important;">
+    <style>
+        table#basket tr td:nth-child(2) {
+            text-align: right !important;
+        }
+    </style>
+
+    <div class="col-sm-12 col-md-4 col-lg-4" style="padding-top: 10px !important;">
        
+
         <h5><strong>Din bestilling</strong></h5>
 
         <h4>@Model.Mealbox.Name</h4>
 
-        <table>
+        <table id="basket">
             <tbody>
                 <tr>
-                    <td class="w-100"><strong>Personer:</strong></td>
-                    <td>
+                    <td><strong>Personer:</strong></td>
+                    <td class="w-100">
                         @if (Model.PostData.TryGetValue("people_options", out var people_options))
                         {
                             @people_options
@@ -131,11 +139,33 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><strong>Leveringsfrekvens:</strong></td>
+                    <td><strong>Leveringsfrekvens:&nbsp;&nbsp;&nbsp;&nbsp;</strong></td>
                     <td>
                         @if (Model.PostData.TryGetValue("interval_option", out var interval_option))
                         {
-                            @interval_option
+                         
+                            <button class="btn btn-outline-secondary item btn-sm">
+                                @if(interval_option == "weekly")
+                                {
+                                    <span>Hver uge</span>
+                                }
+
+                                @if (interval_option == "bi_weekly")
+                                {
+                                    <span>Hver anden uge</span>
+                                }
+
+                                @if (interval_option == "tri_weekly")
+                                {
+                                    <span>Hver tredje uge</span>
+                                } 
+
+                                @if(interval_option == "monthly")
+                                {
+                                    <span>Hver måned</span>
+                                } 
+                            </button>
+
                         }
                     </td>
                 </tr>
@@ -146,7 +176,7 @@
                         {
                             @foreach (var diet in Model.DietList)
                             {
-                                @diet.Name
+                                <button class="btn btn-outline-secondary item btn-sm">@diet.Name</button>
                             }
                         }
                     </td>
@@ -158,7 +188,7 @@
                         {
                             @foreach (var allergy in Model.AllergyList)
                             {
-                                @allergy.Name
+                                <button class="btn btn-outline-secondary item btn-sm">@allergy.Name</button>
                             }
                         }
                     </td>
@@ -169,25 +199,52 @@
                 <tr>
                     <td>Dag 1:</td>
                     <td>
-                        @Model.ProductDay1.Name
+                        @if(Model.ProductDay1 != null)
+                        {
+                            @Model.ProductDay1.Name
+                        } else
+                        {
+                            <span>Fravalgt</span>
+                        }                         
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 2:</td>
                     <td>
-                        @Model.ProductDay2.Name
+                        @if (Model.ProductDay2 != null)
+                        {
+                            @Model.ProductDay2.Name
+                        }
+                        else
+                        {
+                            <span>Fravalgt</span>
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 3:</td>
                     <td>
-                        @Model.ProductDay3.Name
+                        @if (Model.ProductDay3 != null)
+                        {
+                            @Model.ProductDay3.Name
+                        }
+                        else
+                        {
+                            <span>Fravalgt</span>
+                        }
                     </td>
                 </tr>
                 <tr>
                     <td>Dag 4:</td>
                     <td>
-                        @Model.ProductDay4.Name
+                        @if (Model.ProductDay4 != null)
+                        {
+                            @Model.ProductDay4.Name
+                        }
+                        else
+                        {
+                            <span>Fravalgt</span>
+                        }
                     </td>
                 </tr>
                 <tr>
@@ -196,7 +253,8 @@
                 <tr style="font-weight: bold !important;">
                     <td>Til betaling i alt:</td>
                     <td width="100px">
-                        @Model.Mealbox.getPrice(2) DKK
+                        @if (int.TryParse(people_options, out int people_options_int)) { }
+                        @Model.Mealbox.getPrice(people_options_int) DKK
                     </td>
                 </tr>
 
@@ -219,23 +277,23 @@
 
             var zip = $("#Customer_Zip").val();
 
-                $.ajax({
+            $.ajax({
                 url: '/Checkout/GetCityByZip',
-                    type: 'GET',
+                type: 'GET',
                 contentType: 'application/json',
                 data: { zipCode: zip },
                 success: function (data) {
-                        $('#City').val(data);
-                    },
+                    $('#City').val(data);
+                },
 
-                    error: function () {
+                error: function () {
                     $('#City').val('City not found.');
-                    }
+                }
 
-                });
-   
+            });
 
-        });
+
+        }).change();
 
 
 
@@ -300,6 +358,9 @@
                 var errorElement = document.getElementById('card-errors');
                 errorElement.textContent = error.message;
             } else {
+
+                $("div.spanner").addClass("show");
+                $("div.overlay").addClass("show");
 
                 // Alt ok
                 // Find formen ved hjælp af id

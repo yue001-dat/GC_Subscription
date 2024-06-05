@@ -69,6 +69,7 @@ namespace GC_Subscription.Pages.Buy
                 PostData[key] = Request.Form[key];
             }
 
+          
             // Fetch Mealbox When selling predefined
             if (int.TryParse(Request.Form["mealbox-id"], out int mealBoxId))
             {
@@ -116,6 +117,8 @@ namespace GC_Subscription.Pages.Buy
                                          .Where(d => SelectedAllergyIds.Contains(d.Id))
                                          .ToListAsync();
             }
+
+            Subscription subscription = new Subscription();
 
             return Page();
         }
