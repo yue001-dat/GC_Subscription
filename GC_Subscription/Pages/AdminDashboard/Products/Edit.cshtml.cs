@@ -76,6 +76,7 @@ namespace GC_Subscription.Pages.Products
                 existingProduct.Description = Product.Description;
                 existingProduct.Price = Product.Price;
                 existingProduct.LastEdited = DateTime.Now;
+                existingProduct.InStock = Product.InStock;
 
                 // Update selected allergies
                 existingProduct.Allergies.Clear();

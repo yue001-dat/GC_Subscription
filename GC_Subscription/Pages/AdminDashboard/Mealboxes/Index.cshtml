@@ -63,12 +63,29 @@
                                 <!-- Card Price -->
                                 <p class="card-text card-text-price">kr. @Html.DisplayFor(modelItem => item.Price),-</p>
                             </div>
-                        
+
                             <!-- Card Footer -->
                             <div class="card-footer">
-                                <a asp-page="./Details" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-info-circle"></i></a> <!-- Details/Open icon -->
-                                <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
-                                <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-link"><i class="far fa-trash-alt" style="color: red;"></i></a> <!-- Delete icon -->
+
+                                <!-- Toggle InStock button on/off -->
+                                <div class="left">
+
+                                    @if (item.Products.Any(p => !p.InStock))
+                                    {
+                                        <div class="instock">
+                                            <button type="button" class="btn btn-danger btn-sm">Ret ikke på lager</button>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Icons -->
+                                <div class="right">
+                                    <div class="icons">
+                                        <a asp-page="./Details" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-info-circle"></i></a> <!-- Details/Open icon -->
+                                        <a asp-page="./Edit" asp-route-id="@item.Id" class="btn-link"><i class="fas fa-edit"></i></a> <!-- Edit icon -->
+                                        <a asp-page="./Delete" asp-route-id="@item.Id" class="btn-link"><i class="far fa-trash-alt" style="color: red;"></i></a> <!-- Delete icon -->
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
