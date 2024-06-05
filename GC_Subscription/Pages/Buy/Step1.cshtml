@@ -204,19 +204,6 @@
 
         </table>
 
-
-        @if (Request.Method == "POST")
-        {
-
-            <h2>Posted Data:</h2>
-            <ul>
-                @foreach (var item in Model.PostData)
-                {
-                    <li><strong>@item.Key:</strong> @item.Value</li>
-                }
-            </ul>
-        }
-
     </div>
 
 </div>
