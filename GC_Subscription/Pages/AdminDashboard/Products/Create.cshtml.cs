@@ -119,6 +119,11 @@ namespace GC_Subscription.Pages.Products
 
                 Product.ImageUrl = $"/{folderName}/" + uniqueFileName;
             }
+
+            else
+            {
+                Product.ImageUrl = "/images/default.png"; // Set default image URL
+            }
         }
         #endregion
     }
