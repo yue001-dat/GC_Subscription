@@ -100,6 +100,11 @@ namespace GC_Subscription.Pages.Mealboxes
 
                 Mealbox.ImageUrl = $"/{folderName}/" + uniqueFileName;
             }
+
+            else
+            {
+                Mealbox.ImageUrl = "/images/default.png"; // Set default image URL
+            }
         }
         #endregion
     }
