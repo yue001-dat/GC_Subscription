@@ -18,7 +18,6 @@ namespace GC_Subscription.Data
         public DbSet<Subscription> Subscription { get; set; } = default!;
         public DbSet<GC_Subscription.Models.Customer> Customer { get; set; } = default!;
         public DbSet<ZipCity> ZipCity { get; set; } = default!;
-
         public DbSet<GC_Subscription.Models.Invoice> Invoice { get; set; } = default!;
 
         /*
