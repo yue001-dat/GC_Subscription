@@ -68,12 +68,14 @@ namespace GC_Subscription.Pages.Buy
             {
                 PostData[key] = Request.Form[key];
             }
-
           
             // Fetch Mealbox When selling predefined
             if (int.TryParse(Request.Form["mealbox-id"], out int mealBoxId))
             {
                 MealBoxId = mealBoxId;
+            } else
+            {
+                MealBoxId = 14;
             }
 
             var mealbox = await _context.Mealbox
